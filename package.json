@@ -1,7 +1,7 @@
 {
-  "name": "placementportal",
+  "name": "proshop",
   "version": "1.0.0",
-  "description": "MERN Placement Portal",
+  "description": "MERN Proshop E-Commerce Website",
   "main": "server.js",
   "type": "module",
   "scripts": {
