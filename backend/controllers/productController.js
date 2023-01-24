@@ -47,14 +47,13 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const createProduct = asyncHandler(async (req, res) => {
     const product = new Product({
         name: 'Sample name',
-        price: 0,
         user: req.user._id,
         image: '/images/sample.jpg',
-        brand: 'Sample Brand',
-        category: 'Sample Category',
-        countInStock: 0,
-        numReviews: 0,
+        role: 'Sample Role',
+        ctc: 0,
         description: 'Sample Description',
+        deadline: Date.now(),
+        location: 'Sample Locations'
     })
 
     const createdProduct = await product.save()
@@ -65,16 +64,16 @@ const createProduct = asyncHandler(async (req, res) => {
 //@route PUT /api/products/:id
 //@access Private/admin
 const updateProduct = asyncHandler(async (req, res) => {
-    const {name, price, description, image, brand, category, countInStock} = req.body
+    const {name, image, ctc, role, description, deadline, location} = req.body
     const product = await Product.findById(req.params.id)
     if(product){
-        product.name = name
-        product.price = price
-        product.description = description
-        product.image = image
-        product.brand = brand
-        product.category = category
-        product.countInStock = countInStock
+        product.name = name,
+        product.image = image,
+        product.ctc = ctc,
+        product.role = role,
+        product.description = description,
+        product.deadline = deadline,
+        product.location = location
         const updatedProduct = await product.save()
         res.json(updatedProduct)
     } else {
@@ -91,12 +90,12 @@ const createProductReview = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id)
 
     if(product){
-        const alreadyReviewed = product.reviews.find(r => r.user.toString() === req.user._id.toString())
+        // const alreadyReviewed = product.reviews.find(r => r.user.toString() === req.user._id.toString())
 
-        if(alreadyReviewed) {
-            res.status(400)
-            throw new Error('Product already reviewed')
-        }
+        // if(alreadyReviewed) {
+        //     res.status(400)
+        //     throw new Error('Product already reviewed')
+        // }
 
         const review = {
             name: req.user.name,

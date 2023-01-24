@@ -19,7 +19,7 @@ const Header = () => {
       <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
         <Container>
           <Nav.Link as={Link} to="/">
-            <Navbar.Brand>Proshop</Navbar.Brand>
+            <Navbar.Brand>Traning and Placement Cell, IIITA</Navbar.Brand>
           </Nav.Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -33,19 +33,16 @@ const Header = () => {
                   </NavDropdown.Item>
                   <NavDropdown.Item>
                     <Nav.Link as={Link} to='/admin/productlist'>
-                      <h6>Products</h6>
+                      <h6>Companies</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
                     <Nav.Link as={Link} to='/admin/orderlist'>
-                      <h6>Orders</h6>
+                      <h6>Applications</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
-              <Nav.Link as={Link} to="/cart">
-                <i className='fas fa-shopping-cart'></i> Cart
-              </Nav.Link>
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                   <NavDropdown.Item>

@@ -19,6 +19,10 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    resume: {
+        type: String,
+        // required: true,
     }
 }, {
     timestamps: true

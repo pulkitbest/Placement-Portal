@@ -1,7 +1,7 @@
 {
-  "name": "proshop",
+  "name": "placementportal",
   "version": "1.0.0",
-  "description": "MERN Proshop E-Commerce Website",
+  "description": "MERN Placement Portal for TCP Cell, IIIT Allahabad",
   "main": "server.js",
   "type": "module",
   "scripts": {

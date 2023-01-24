@@ -8,7 +8,7 @@ import Loader from '../components/Loader'
 import SearchBox from '../components/SearchBox'
 import {listProducts} from '../actions/productActions'
 
-const HomeScreen = ({match}) => {
+const HomeScreen = ({history, match}) => {
   const keyword = match.params.keyword
 
   const dispatch = useDispatch()
@@ -16,13 +16,21 @@ const HomeScreen = ({match}) => {
   const productList = useSelector(state => state.productList) //works as usestate
   const {loading, error, products} = productList
 
+  const userLogin = useSelector(state => state.userLogin)
+  const {userInfo} = userLogin
+
   useEffect(() => {
-    dispatch(listProducts(keyword)) //this fills our state
-  }, [dispatch, keyword])
+    if(!userInfo){
+      history.push('/login')
+    }
+    else{
+      dispatch(listProducts(keyword)) //this fills our state
+    }
+  }, [dispatch, keyword, userInfo, history])
 
   return (
     <>
-      <h1>Latest Products</h1>
+      <h1>Announcements</h1>
       <Route render={({history}) => <SearchBox history={history}/>}/>
       {loading ? (
           <Loader />

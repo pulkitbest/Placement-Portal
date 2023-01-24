@@ -50,11 +50,11 @@ const ProductListScreen = ({history, match}) => {
         <>
             <Row className='align-items-center'>
                 <Col>
-                    <h1>Products</h1>
+                    <h1>Companies</h1>
                 </Col>
                 <Col className='text-end'>
                     <Button className='my-3' onClick={createProductHandler}>
-                        <i className='fas fa-plus'></i> Create Product
+                        <i className='fas fa-plus'></i> NEW  
                     </Button>
                 </Col>
             </Row>
@@ -68,9 +68,9 @@ const ProductListScreen = ({history, match}) => {
                         <tr>
                             <th>ID</th>
                             <th>NAME</th>
-                            <th>PRICE</th>
-                            <th>CATEGORY</th>
-                            <th>BRAND</th>
+                            <th>CTC</th>
+                            <th>ROLE</th>
+                            <th>FORM DEADLINE</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,9 +78,9 @@ const ProductListScreen = ({history, match}) => {
                             <tr key={product._id}>
                                 <td>{product._id}</td>
                                 <td>{product.name}</td>
-                                <td>${product.price}</td>
-                                <td>{product.category}</td> 
-                                <td>{product.brand}</td> 
+                                <td>{product.ctc} LPA</td>
+                                <td>{product.role}</td> 
+                                <td>{product.deadline.substring(0, 10)} {product.deadline.substring(11, 16)}</td> 
                                 <td>
                                     <Link to={`/admin/product/${product._id}/edit`}>
                                         <Button variant='dark' className='btn-sm'>

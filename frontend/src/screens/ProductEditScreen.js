@@ -13,12 +13,12 @@ const ProductEditScreen = ({match, history}) => {
     const productId  = match.params.id
 
     const [name, setName] = useState('')
-    const [price, setPrice] = useState(0)
+    const [ctc, setCTC] = useState(0)
     const [image, setImage] = useState('')
-    const [brand, setBrand] = useState('')
-    const [category, setCategory] = useState('')
-    const [countInStock, setCountInStock] = useState(0)
+    const [role, setRole] = useState('')
     const [description, setDescription] = useState('')
+    const [deadline, setDeadline] = useState(Date.now())
+    const [location, setLocation] = useState('')
     const [uploading, setUploading] = useState(false)
 
     const dispatch = useDispatch()
@@ -33,19 +33,19 @@ const ProductEditScreen = ({match, history}) => {
         if(successUpdate){
             dispatch({type: PRODUCT_UPDATE_RESET})
             history.push('/admin/productlist')
-        } else {
+        } 
             if(!product.name || product._id !== productId){
                 dispatch(listProductDetails(productId))
             } else {
                 setName(product.name)
-                setPrice(product.price)
                 setImage(product.image)
-                setBrand(product.brand)
-                setCategory(product.category)
-                setCountInStock(product.countInStock)
+                setCTC(product.ctc)
+                setRole(product.role)
                 setDescription(product.description)
+                setDeadline(product.deadline)
+                setLocation(product.location)
             }
-        }
+        
     }, [product, dispatch, history, productId, successUpdate])
 
     const uploadFileHandler = async(e) => {
@@ -74,12 +74,12 @@ const ProductEditScreen = ({match, history}) => {
         dispatch(updateProduct({
             _id: productId,
             name,
-            price,
+            ctc,
             image,
-            brand,
-            category,
-            countInStock,
-            description
+            role,
+            description,
+            deadline,
+            location,
         }))
     }
 
@@ -103,13 +103,13 @@ const ProductEditScreen = ({match, history}) => {
                         </Form.Group>
                         <h4> </h4>
                         
-                        <Form.Group controlId='price'>
-                            <Form.Label>Price Address</Form.Label>
+                        <Form.Group controlId='ctc'>
+                            <Form.Label>CTC in LPA</Form.Label>
                             <Form.Control 
                                 type='number' 
-                                placeholder='Enter Price' 
-                                value={price} 
-                                onChange={(e) => setPrice(e.target.value)}>
+                                placeholder='Enter CTC' 
+                                value={ctc} 
+                                onChange={(e) => setCTC(e.target.value)}>
                             </Form.Control>
                         </Form.Group>
                         <h4> </h4>
@@ -133,35 +133,36 @@ const ProductEditScreen = ({match, history}) => {
                         </Form.Group>
                         <h4> </h4>
 
-                        <Form.Group controlId='brand'>
-                            <Form.Label>Brand Name</Form.Label>
+                        <Form.Group controlId='role'>
+                            <Form.Label>Role</Form.Label>
                             <Form.Control 
                                 type='text' 
-                                placeholder='Enter Brand Name' 
-                                value={brand} 
-                                onChange={(e) => setBrand(e.target.value)}>
+                                placeholder='Enter Role' 
+                                value={role} 
+                                onChange={(e) => setRole(e.target.value)}>
                             </Form.Control>
                         </Form.Group>
                         <h4> </h4>
 
-                        <Form.Group controlId='category'>
-                            <Form.Label>Category</Form.Label>
+                        <Form.Group controlId='location'>
+                            <Form.Label>Location</Form.Label>
                             <Form.Control 
                                 type='text' 
-                                placeholder='Enter Category' 
-                                value={category} 
-                                onChange={(e) => setCategory(e.target.value)}>
+                                placeholder='Enter Location' 
+                                value={location} 
+                                onChange={(e) => setLocation(e.target.value)}>
                             </Form.Control>
                         </Form.Group>
                         <h4> </h4>
 
-                        <Form.Group controlId='countinstock'>
-                            <Form.Label>Count in Stock</Form.Label>
+                        <Form.Group controlId='deadline'>
+                            <Form.Label>Deadline</Form.Label>
                             <Form.Control 
-                                type='number' 
-                                placeholder='Enter Count in Stock' 
-                                value={countInStock} 
-                                onChange={(e) => setCountInStock(e.target.value)}>
+                                type='datetime-local' 
+                                placeholder='Enter Deadline' 
+                                value={deadline} 
+                                onChange={(e) => setDeadline(e.target.value)}
+                                >
                             </Form.Control>
                         </Form.Group>
                         <h4> </h4>
