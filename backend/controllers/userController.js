@@ -15,6 +15,16 @@ const authUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            collegeEmail: user.collegeEmail,
+            rollNumber: user.rollNumber,
+            phone: user.phone,
+            resume: user.resume,
+            cgpa: user.cgpa,
+            tenthPercentage: user.tenthPercentage,
+            twelfthPercentage: user.twelfthPercentage,
+            department: user.department,
+            programme: user.programme,
+            dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
             token: generateToken(user._id),
         })
@@ -28,7 +38,21 @@ const authUser = asyncHandler(async (req, res) => {
 //@route POST /api/users
 //@access Public
 const registerUser = asyncHandler(async (req, res) => {
-    const {name, email, password, resume} = req.body
+    const {
+        name, 
+        email, 
+        collegeEmail, 
+        rollNumber, 
+        phone, 
+        password, 
+        resume, 
+        cgpa, 
+        tenthPercentage, 
+        twelfthPercentage, 
+        department, 
+        programme, 
+        dateOfBirth
+    } = req.body
     
     const userExists = await User.findOne({email})
 
@@ -38,10 +62,19 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        name,
-        email,
-        password,
-        resume
+        name, 
+        email, 
+        collegeEmail, 
+        rollNumber, 
+        phone, 
+        password, 
+        resume, 
+        cgpa, 
+        tenthPercentage, 
+        twelfthPercentage, 
+        department, 
+        programme, 
+        dateOfBirth
     })
 
     if(user){
@@ -49,7 +82,16 @@ const registerUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            collegeEmail: user.collegeEmail,
+            rollNumber: user.rollNumber,
+            phone: user.phone,
             resume: user.resume,
+            cgpa: user.cgpa,
+            tenthPercentage: user.tenthPercentage,
+            twelfthPercentage: user.twelfthPercentage,
+            department: user.department,
+            programme: user.programme,
+            dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
             token: generateToken(user._id),
         })
@@ -70,7 +112,16 @@ const getUserProfile = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            collegeEmail: user.collegeEmail,
+            rollNumber: user.rollNumber,
+            phone: user.phone,
             resume: user.resume,
+            cgpa: user.cgpa,
+            tenthPercentage: user.tenthPercentage,
+            twelfthPercentage: user.twelfthPercentage,
+            department: user.department,
+            programme: user.programme,
+            dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
         })
     }
@@ -89,7 +140,16 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     if(user){
         user.name = req.body.name || user.name
         user.email = req.body.email || user.email
+        user.collegeEmail = req.body.collegeEmail || user.collegeEmail
+        user.rollNumber = req.body.rollNumber || user.rollNumber
+        user.phone = req.body.phone || user.phone
         user.resume = req.body.resume || user.resume
+        user.cgpa = req.body.cgpa || user.cgpa
+        user.tenthPercentage = req.body.tenthPercentage || user.tenthPercentage
+        user.twelfthPercentage = req.body.twelfthPercentage || user.twelfthPercentage
+        user.department = req.body.department || user.department
+        user.programme = req.body.programme || user.programme
+        user.dateOfBirth = req.body.dateOfBirth || user.dateOfBirth
         if(req.body.password) {
             user.password = req.body.password
         }
@@ -97,12 +157,21 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         const updatedUser = await user.save()
 
         res.json({
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            resume: updatedUser.resume,
-            isAdmin: updatedUser.isAdmin,
-            token: generateToken(updatedUser._id),
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            collegeEmail: user.collegeEmail,
+            rollNumber: user.rollNumber,
+            phone: user.phone,
+            resume: user.resume,
+            cgpa: user.cgpa,
+            tenthPercentage: user.tenthPercentage,
+            twelfthPercentage: user.twelfthPercentage,
+            department: user.department,
+            programme: user.programme,
+            dateOfBirth: user.dateOfBirth,
+            isAdmin: user.isAdmin,
+            token: generateToken(user._id),
         })
 
     }
@@ -154,19 +223,25 @@ const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
 
     if(user){
-        user.name = req.body.name || user.name
-        user.email = req.body.email || user.email
-        user.resume = req.body.resume || user.resume
         user.isAdmin = req.body.isAdmin
 
         const updatedUser = await user.save()
 
         res.json({
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            resume: updatedUser.resume,
-            isAdmin: updatedUser.isAdmin
+            _id: updateUser._id,
+            name: updateUser.name,
+            email: updateUser.email,
+            collegeEmail: updateUser.collegeEmail,
+            rollNumber: updateUser.rollNumber,
+            phone: updateUser.phone,
+            resume: updateUser.resume,
+            cgpa: updateUser.cgpa,
+            tenthPercentage: updateUser.tenthPercentage,
+            twelfthPercentage: updateUser.twelfthPercentage,
+            department: updateUser.department,
+            programme: updateUser.programme,
+            dateOfBirth: updateUser.dateOfBirth,
+            isAdmin: updateUser.isAdmin,
         })
 
     }

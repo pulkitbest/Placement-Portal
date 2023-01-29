@@ -56,7 +56,7 @@ const uploadPdf = multer({
 })
 
 router.post('/resume', uploadPdf.single('file'), (req, res) => {
-    res.send(`/resume/${req.file.path}`)
+    res.send(`/${req.file.path}`)
 })
 
 export default router

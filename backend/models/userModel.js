@@ -11,6 +11,21 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    collegeEmail: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    rollNumber: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     password: {
         type: String,
         required: true
@@ -22,7 +37,31 @@ const userSchema = mongoose.Schema({
     },
     resume: {
         type: String,
-        // required: true,
+        required: true,
+    },
+    cgpa: {
+        type: Number,
+        required: true,
+    },
+    tenthPercentage: {
+        type: Number,
+        required: true,
+    },
+    twelfthPercentage: {
+        type: Number,
+        required: true,
+    },
+    department: {
+        type: String,
+        required: true,
+    },
+    programme: {
+        type: String,
+        required: true
+    },
+    dateOfBirth: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true

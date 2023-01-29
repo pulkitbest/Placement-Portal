@@ -38,9 +38,11 @@ const UserListScreen = ({history}) => {
                 <Table striped bordered hover responsive className='table-sm'>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>ROLL NO.</th>
                             <th>NAME</th>
                             <th>EMAIL</th>
+                            <th>COLLEGE EMAIL</th>
+                            <th>CV</th>
                             <th>ADMIN</th>
                             <th>EDIT/DELETE</th>
                         </tr>
@@ -48,9 +50,11 @@ const UserListScreen = ({history}) => {
                     <tbody>
                         {users.map(user => (
                             <tr key={user._id}>
-                                <td>{user._id}</td>
+                                <td>{user.rollNumber}</td>
                                 <td>{user.name}</td>
                                 <td><a href={`mailto:${user.email}`}>{user.email}</a></td>
+                                <td><a href={`mailto:${user.collegeEmail}`}>{user.collegeEmail}</a></td>
+                                <td><Link to={`/cv/${user._id}`}><i class='fa-solid fa-link'></i></Link></td>
                                 <td>{user.isAdmin ? <i className='fas fa-check' style={{color: 'green'}}></i> : (
                                     <i className='fas fa-times' style={{color: 'red'}}></i>
                                 )}</td> 

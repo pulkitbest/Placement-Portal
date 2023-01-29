@@ -6,7 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listOrders } from '../actions/orderActions'
 
-const OrderListScreen = ({history}) => {
+const OrderListScreen = ({history}) => { 
     const dispatch = useDispatch()
 
     const orderList = useSelector(state => state.orderList)

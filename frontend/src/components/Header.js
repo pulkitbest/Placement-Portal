@@ -19,7 +19,7 @@ const Header = () => {
       <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
         <Container>
           <Nav.Link as={Link} to="/">
-            <Navbar.Brand>Traning and Placement Cell, IIITA</Navbar.Brand>
+            <Navbar.Brand>Placement Portal</Navbar.Brand>
           </Nav.Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -28,17 +28,17 @@ const Header = () => {
                 <NavDropdown title='Admin Controls' id='adminmenu'>
                   <NavDropdown.Item>
                     <Nav.Link as={Link} to='/admin/userlist'>
-                      <h6>Users</h6>
+                      <h6><i class="fa fa-user" aria-hidden="true"></i> Users</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
                     <Nav.Link as={Link} to='/admin/productlist'>
-                      <h6>Companies</h6>
+                      <h6><i class="fa fa-globe"></i> Companies</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
                     <Nav.Link as={Link} to='/admin/orderlist'>
-                      <h6>Applications</h6>
+                      <h6><i class="fa fa-newspaper"></i> Applications</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -47,12 +47,22 @@ const Header = () => {
                 <NavDropdown title={userInfo.name} id='username'>
                   <NavDropdown.Item>
                     <Nav.Link as={Link} to='/profile'>
-                      <h6>Profile</h6>
+                      <h6><i class="fa fa-user" aria-hidden="true"></i> Profile</h6>
+                    </Nav.Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Nav.Link as={Link} to='/profile/applications'>
+                      <h6><i className='fa fa-newspaper'></i> My Applications</h6>
+                    </Nav.Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Nav.Link as={Link} to='/profile/update'>
+                      <h6><i class="fa fa-cog" aria-hidden="true"></i> Update Profile</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item onClick={logoutHandler}>
                     <Nav.Link>
-                      <h6>Log Out</h6>
+                      <h6><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                 </NavDropdown>

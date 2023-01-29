@@ -19,6 +19,9 @@ const HomeScreen = ({history, match}) => {
   const userLogin = useSelector(state => state.userLogin)
   const {userInfo} = userLogin
 
+  var sortedProducts = products
+  sortedProducts.sort((a,b) => (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0))
+
   useEffect(() => {
     if(!userInfo){
       history.push('/login')
@@ -34,13 +37,11 @@ const HomeScreen = ({history, match}) => {
       <Route render={({history}) => <SearchBox history={history}/>}/>
       {loading ? (
           <Loader />
-          // <h2> Loading... </h2>
         ) : error ? (
           <Message>{error}</Message>
-          // <h3>{error}</h3>
         ) : (
           <Row>
-          {products.map(product => (
+          {sortedProducts.map(product => (
               <Col key={product._id} sm={12} md={6} lg={4}>
                   <Product product={product}/> 
               </Col>

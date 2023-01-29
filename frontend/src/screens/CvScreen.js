@@ -1,22 +1,22 @@
-import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
-import axios from 'axios'
-import {Nav, Form, Button, Row, Col, Table, Card} from 'react-bootstrap'
+import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {getUserDetails, updateUserProfile} from '../actions/userActions'
-import {listMyOrders} from '../actions/orderActions'
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import {getUserDetails} from '../actions/userActions'
+import { Worker, Viewer } from '@react-pdf-viewer/core'
+import '@react-pdf-viewer/core/lib/styles/index.css'
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
+import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 
 const ProfileScreen = ({match, history}) => {
     const userId  = match.params.id
     const dispatch = useDispatch()
+    const defaultLayoutPluginInstance = defaultLayoutPlugin({
+        sidebarTabs: (defaultTabs) => [],
+    })
 
     const userDetails = useSelector(state => state.userDetails)
     const {loading, error, user} = userDetails
-
-    console.log(user)
 
     const userLogin = useSelector(state => state.userLogin)
     const {userInfo} = userLogin
@@ -25,8 +25,8 @@ const ProfileScreen = ({match, history}) => {
         if(!userInfo){
             history.push('/login')
         } else {
-            if(!user || !user.name || user._id !== userId){
-                dispatch(getUserDetails(userId))
+            if(!user || user._id !== userId){
+                dispatch(getUserDetails('profile'))
             }
         }
 
@@ -34,6 +34,15 @@ const ProfileScreen = ({match, history}) => {
 
     return (
         <>
+            {/* {loading && <Loader />} */}
+            {error && <Message>{error}</Message>}
+            <div className="viewer">
+            {user.resume&&(
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.12.313/build/pdf.worker.min.js">
+                <Viewer fileUrl={user.resume} plugins={[defaultLayoutPluginInstance]}></Viewer>
+            </Worker>
+            )}
+            </div>
         </>
     )
 }

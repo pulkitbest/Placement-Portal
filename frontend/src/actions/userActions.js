@@ -47,7 +47,20 @@ export const logout = () => async (dispatch) => {
     })
 }
 
-export const register = (name, email, password) => async (dispatch) => {
+export const register = (
+    name, 
+    email, 
+    collegeEmail, 
+    rollNumber, 
+    phone, 
+    password, 
+    resume, 
+    cgpa, 
+    tenthPercentage, 
+    twelfthPercentage, 
+    department, 
+    programme, 
+    dateOfBirth) => async (dispatch) => {
     try{
         dispatch({
             type: USER_REGISTER_REQUEST
@@ -60,7 +73,21 @@ export const register = (name, email, password) => async (dispatch) => {
             }
         }
  
-        const {data} = await axios.post('/api/users', {name, email, password}, config)
+        const {data} = await axios.post('/api/users', {
+            name, 
+            email, 
+            collegeEmail, 
+            rollNumber, 
+            phone, 
+            password, 
+            resume, 
+            cgpa, 
+            tenthPercentage, 
+            twelfthPercentage, 
+            department, 
+            programme, 
+            dateOfBirth
+        }, config)
     
         dispatch({
             type: USER_REGISTER_SUCCESS,

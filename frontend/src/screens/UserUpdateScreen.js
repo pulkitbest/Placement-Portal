@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import {Link} from 'react-router-dom'
-import {Form, Button, Row, Col} from 'react-bootstrap'
+import {Form, Button} from 'react-bootstrap'
+import FormContainer from '../components/FormContainer'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import FormContainer from '../components/FormContainer'
-import {register} from '../actions/userActions'
+import {getUserDetails, updateUserProfile} from '../actions/userActions'
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
-const RegisterScreen = ({location, history}) => {
+const UserUpdateScreen = ({location, history}) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [collegeEmail, setCollegeEmail] = useState('')
@@ -25,50 +25,42 @@ const RegisterScreen = ({location, history}) => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState(null)
     const [uploading, setUploading] = useState(false)
-    const [validated, setValidated] = useState(false)
 
     const dispatch = useDispatch()
 
-    const userRegister = useSelector(state => state.userRegister)
-    const {loading, error, userInfo} = userRegister
+    const userDetails = useSelector(state => state.userDetails)
+    const {loading, error, user} = userDetails
 
-    const redirect = location.search ? location.search.split('=')[1] : '/'
+    const userLogin = useSelector(state => state.userLogin)
+    const {userInfo} = userLogin
+
+    const userUpdateProfile = useSelector(state => state.userUpdateProfile)
+    const {success} = userUpdateProfile
 
     useEffect(() => {
-        if(userInfo){
-            history.push(redirect)
+        if(!userInfo){
+            history.push('/login')
+        } else {
+            if(!user || !user.name || success){
+                dispatch({type: USER_UPDATE_PROFILE_RESET})
+                dispatch(getUserDetails('profile'))
+            } else{
+                setName(user.name)
+                setEmail(user.email)
+                setCollegeEmail(user.collegeEmail)
+                setRollNumber(user.rollNumber)
+                setPhone(user.phone)
+                setResume(user.resume)
+                setCgpa(user.cgpa)
+                setTenthPercentage(user.tenthPercentage)
+                setTwelfthPercentage(user.twelfthPercentage)
+                setDepartment(user.department)
+                setProgramme(user.programme)
+                setDateOfBirth(user.dateOfBirth)
+            }
         }
 
-    }, [history, userInfo, redirect])
-
-    const submitHandler = (e) => {
-        e.preventDefault()
-        const form = e.currentTarget;
-        if (form.checkValidity() === false) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        setValidated(true);
-        if(password !== confirmPassword){
-            setMessage('Passwords do not match')
-        }else{
-            dispatch(register(
-                name, 
-                email, 
-                collegeEmail, 
-                rollNumber, 
-                phone, 
-                password, 
-                resume, 
-                cgpa, 
-                tenthPercentage, 
-                twelfthPercentage, 
-                department, 
-                programme, 
-                dateOfBirth
-            ))
-        }
-    }
+    }, [dispatch, history, userInfo, user, success])
 
     const uploadFileHandler = async(e) => {
         const file = e.target.files[0]
@@ -92,21 +84,47 @@ const RegisterScreen = ({location, history}) => {
         }
     }
 
+    const submitHandler = (e) => {
+        e.preventDefault()
+        if(password !== confirmPassword){
+            setMessage('Passwords do not match')
+        }else{
+            setMessage('Profile Updated!')
+            dispatch(updateUserProfile({
+                id: user._id,
+                name, 
+                email, 
+                collegeEmail, 
+                rollNumber, 
+                phone, 
+                password, 
+                resume, 
+                cgpa, 
+                tenthPercentage, 
+                twelfthPercentage, 
+                department, 
+                programme, 
+                dateOfBirth
+            }))
+        }
+    }
+
     return (
         <FormContainer>
-            <h1>Sign Up</h1>
-            {message && <Message variant='danger'>{message}</Message>}
-            {error && <Message variant='danger'>{error}</Message>}
+            <h1>User Profile</h1>
             {loading && <Loader />}
-            <Form noValidate validated={validated} onSubmit={submitHandler}>
+            {message && message==='Profile Updated!' && <Message variant='success'>{message}</Message>}
+            {message && message!=='Profile Updated!' && <Message variant='danger'>{message}</Message>}
+            {error && <Message variant='danger'>{error}</Message>}
+            {success && <Message variant='success'>Profile Updated</Message>}
+            <Form onSubmit={submitHandler}>
                 <Form.Group controlId='name'>
                     <Form.Label>Name</Form.Label>
                     <Form.Control 
                         type='name' 
                         placeholder='Enter Name' 
                         value={name} 
-                        onChange={(e) => setName(e.target.value)}
-                        required>
+                        onChange={(e) => setName(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <h4> </h4>
@@ -116,8 +134,7 @@ const RegisterScreen = ({location, history}) => {
                         type='email' 
                         placeholder='Enter Personal Email' 
                         value={email} 
-                        onChange={(e) => setEmail(e.target.value)}
-                        required>
+                        onChange={(e) => setEmail(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <h4> </h4>
@@ -127,8 +144,7 @@ const RegisterScreen = ({location, history}) => {
                         type='email' 
                         placeholder='Enter College Email' 
                         value={collegeEmail} 
-                        onChange={(e) => setCollegeEmail(e.target.value)}
-                        required>
+                        onChange={(e) => setCollegeEmail(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <h4> </h4>
@@ -138,8 +154,7 @@ const RegisterScreen = ({location, history}) => {
                         type='text' 
                         placeholder='Enter Enrollment Number' 
                         value={rollNumber} 
-                        onChange={(e) => setRollNumber(e.target.value)}
-                        required>
+                        onChange={(e) => setRollNumber(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <h4> </h4>
@@ -149,8 +164,7 @@ const RegisterScreen = ({location, history}) => {
                         type='tel' 
                         placeholder='Enter Mobile Number with Country Code' 
                         value={phone} 
-                        onChange={(e) => setPhone(e.target.value)}
-                        required>
+                        onChange={(e) => setPhone(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <h4> </h4>
@@ -160,8 +174,7 @@ const RegisterScreen = ({location, history}) => {
                         type='date' 
                         placeholder='Enter your Date of Birth' 
                         value={dateOfBirth} 
-                        onChange={(e) => setDateOfBirth(e.target.value)}
-                        required>
+                        onChange={(e) => setDateOfBirth(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <h4> </h4>
@@ -170,8 +183,7 @@ const RegisterScreen = ({location, history}) => {
                     <Form.Control 
                         as='select'
                         className='form-select'
-                        value={programme}
-                        required 
+                        value={programme} 
                         onChange={(e) => setProgramme(e.target.value)}>
                             <option key={'B.Tech. - 4 Year'} value={'B.Tech. - 4 Year'}>{'B.Tech. - 4 Year'}</option>
                             <option key={'M.Tech. - 2 Year'} value={'M.Tech. - 2 Year'}>{'M.Tech. - 2 Year'}</option>
@@ -184,8 +196,7 @@ const RegisterScreen = ({location, history}) => {
                     <Form.Control 
                         as='select'
                         className='form-select'
-                        value={department}
-                        required 
+                        value={department}  
                         onChange={(e) => setDepartment(e.target.value)}>
                             <option key={'IT'} value={'IT'}>{'IT'}</option>
                             <option key={'IT-Business Informatics'} value={'IT-Business Informatics'}>{'IT-Business Informatics'}</option>
@@ -201,9 +212,8 @@ const RegisterScreen = ({location, history}) => {
                     <Form.Control 
                         type='file'
                         id='file' 
-                        label='Choose File' 
+                        label='Choose File'
                         custom 
-                        required
                         onChange={uploadFileHandler}>
                     </Form.Control>
                     {uploading && <Loader/>}
@@ -216,7 +226,6 @@ const RegisterScreen = ({location, history}) => {
                         placeholder='Enter CGPA upto two decimal places' 
                         value={cgpa} 
                         step='.01'
-                        required
                         onChange={(e) => setCgpa(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
@@ -228,7 +237,6 @@ const RegisterScreen = ({location, history}) => {
                         placeholder='Enter Percentage upto one decimal place' 
                         value={tenthPercentage} 
                         step='.1'
-                        required
                         onChange={(e) => setTenthPercentage(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
@@ -240,7 +248,6 @@ const RegisterScreen = ({location, history}) => {
                         placeholder='Enter Percentage upto one decimal place' 
                         value={twelfthPercentage} 
                         step='.1'
-                        required
                         onChange={(e) => setTwelfthPercentage(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
@@ -250,7 +257,6 @@ const RegisterScreen = ({location, history}) => {
                     <Form.Control 
                         type='password' 
                         placeholder='Enter Password' 
-                        required
                         value={password} onChange={(e) => setPassword(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
@@ -259,23 +265,22 @@ const RegisterScreen = ({location, history}) => {
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control 
                         type='password' 
-                        placeholder='Confirm Password'
-                        required 
+                        placeholder='Confirm Password' 
                         value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <h2> </h2>
                 <Button type='submit' variant='primary'>
-                    Register
+                    Update
                 </Button>
+                <h2> </h2>
+                {message && message==='Profile Updated!' && <Message variant='success'>{message}</Message>}
+                {message && message!=='Profile Updated!' && <Message variant='danger'>{message}</Message>}
+                {error && <Message variant='danger'>{error}</Message>}
+                {success && <Message variant='success'>Profile Updated</Message>}
             </Form>
-            <Row className='py-3'>
-                <Col>
-                Have an Account? <Link to={redirect ? `/login?redirect=${redirect}`:'login'}>Log In</Link>
-                </Col>
-            </Row>
         </FormContainer>
     )
 }
 
-export default RegisterScreen
+export default UserUpdateScreen
