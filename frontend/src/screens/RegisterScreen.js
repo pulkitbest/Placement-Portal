@@ -32,14 +32,14 @@ const RegisterScreen = ({location, history}) => {
     const userRegister = useSelector(state => state.userRegister)
     const {loading, error, userInfo} = userRegister
 
-    const redirect = location.search ? location.search.split('=')[1] : '/'
+    // const redirect = location.search ? location.search.split('=')[1] : '/'
 
     useEffect(() => {
         if(userInfo){
-            history.push(redirect)
+            history.push(`/verification/${userInfo._id}`)
         }
 
-    }, [history, userInfo, redirect])
+    }, [history, userInfo])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -173,6 +173,7 @@ const RegisterScreen = ({location, history}) => {
                         value={programme}
                         required 
                         onChange={(e) => setProgramme(e.target.value)}>
+                            <option key={'Select your programme from dropdown'} value={'Select your programme from dropdown'}>{'Select your programme from dropdown'}</option>
                             <option key={'B.Tech. - 4 Year'} value={'B.Tech. - 4 Year'}>{'B.Tech. - 4 Year'}</option>
                             <option key={'M.Tech. - 2 Year'} value={'M.Tech. - 2 Year'}>{'M.Tech. - 2 Year'}</option>
                             <option key={'MBA - 2 Year'} value={'MBA - 2 Year'}>{'MBA - 2 Year'}</option>
@@ -187,6 +188,7 @@ const RegisterScreen = ({location, history}) => {
                         value={department}
                         required 
                         onChange={(e) => setDepartment(e.target.value)}>
+                            <option key={'Select your department from dropdown'} value={'Select your department'}>{'Select your department'}</option>
                             <option key={'IT'} value={'IT'}>{'IT'}</option>
                             <option key={'IT-Business Informatics'} value={'IT-Business Informatics'}>{'IT-Business Informatics'}</option>
                             <option key={'ECE'} value={'ECE'}>{'ECE'}</option>
@@ -271,7 +273,7 @@ const RegisterScreen = ({location, history}) => {
             </Form>
             <Row className='py-3'>
                 <Col>
-                Have an Account? <Link to={redirect ? `/login?redirect=${redirect}`:'login'}>Log In</Link>
+                Have an Account? <Link to={'login'}>Log In</Link>
                 </Col>
             </Row>
         </FormContainer>

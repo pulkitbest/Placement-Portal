@@ -18,6 +18,7 @@ import OrderListScreen from './screens/OrderListScreen'
 import CvScreen from './screens/CvScreen'
 import UserApplicationScreen from './screens/UserApplicationScreen'
 import UserUpdateScreen from './screens/UserUpdateScreen'
+import UserVerificationScreen from './screens/UserVerificationScreen'
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route path='/placeorder/:id' component={PlaceOrderScreen}/>
           <Route path='/login' component={LoginScreen}/>
           <Route path='/register' component={RegisterScreen}/>
+          <Route path='/verification/:id' component={UserVerificationScreen}/>
           <Route path='/profile' component={ProfileScreen} exact/>
           <Route path='/profile/applications' component={UserApplicationScreen}/>
           <Route path='/profile/update' component={UserUpdateScreen}/>

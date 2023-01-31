@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
+import generateOTP from '../utils/otp.js'
+import sendMail from '../utils/mail.js'
 
 //@desc Auth user and get token
 //@route POST /api/users/login
@@ -61,6 +63,10 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error('User already exists')
     }
 
+    const generatedOTPForEmail = generateOTP()
+    const generatedOTPForCollegeEmail = generateOTP()
+    const generatedOTPForPhone = generateOTP()
+
     const user = await User.create({
         name, 
         email, 
@@ -74,10 +80,22 @@ const registerUser = asyncHandler(async (req, res) => {
         twelfthPercentage, 
         department, 
         programme, 
-        dateOfBirth
+        dateOfBirth,
+        otpForEmail: generatedOTPForEmail,
+        otpForCollegeEmail: generatedOTPForCollegeEmail,
+        otpForPhone: generatedOTPForPhone,
     })
 
-    if(user){
+    if(!user){
+        res.status(400)
+        throw new Error('User not found')
+    }
+
+    try{
+        // await sendMail({
+        //     to: email,
+        //     OTP: generatedOTP,
+        // })
         res.status(201).json({
             _id: user._id,
             name: user.name,
@@ -95,10 +113,65 @@ const registerUser = asyncHandler(async (req, res) => {
             isAdmin: user.isAdmin,
             token: generateToken(user._id),
         })
-    } else{
+    } catch(error){
         res.status(400)
-        throw new Error('User not found')
+        throw new Error('Unable to Sign Up')
     }
+
+    // if(user){
+    //     res.status(201).json({
+    //         _id: user._id,
+    //         name: user.name,
+    //         email: user.email,
+    //         collegeEmail: user.collegeEmail,
+    //         rollNumber: user.rollNumber,
+    //         phone: user.phone,
+    //         resume: user.resume,
+    //         cgpa: user.cgpa,
+    //         tenthPercentage: user.tenthPercentage,
+    //         twelfthPercentage: user.twelfthPercentage,
+    //         department: user.department,
+    //         programme: user.programme,
+    //         dateOfBirth: user.dateOfBirth,
+    //         isAdmin: user.isAdmin,
+    //         token: generateToken(user._id),
+    //     })
+    // } else{
+        
+    // }
+})
+
+const verifyEmail = asyncHandler(async(req, res) => {
+    const {userId, otpForEmail, otpForCollegeEmail, otpForPhone} = req.body
+    const user = await User.findById(userId)
+    if(!user){
+        res.status(404) 
+        throw new Error('User Not Found')
+    }
+    if(user.otpForEmail !== otpForEmail || user.otpForCollegeEmail !== otpForCollegeEmail || user.otpForPhone !== otpForPhone) {
+        res.status(400)
+        throw new Error('Invalid OTP')
+    }
+    user.verified = true
+    await user.save()
+    res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        collegeEmail: user.collegeEmail,
+        rollNumber: user.rollNumber,
+        phone: user.phone,
+        resume: user.resume,
+        cgpa: user.cgpa,
+        tenthPercentage: user.tenthPercentage,
+        twelfthPercentage: user.twelfthPercentage,
+        department: user.department,
+        programme: user.programme,
+        dateOfBirth: user.dateOfBirth,
+        isAdmin: user.isAdmin,
+        verified: user.verified,
+        token: generateToken(user._id),
+    })
 })
 
 //@desc Get user profile
@@ -254,6 +327,7 @@ const updateUser = asyncHandler(async (req, res) => {
 export {authUser, 
     getUserProfile, 
     registerUser, 
+    verifyEmail,
     updateUserProfile,
     getUsers, 
     deleteUser, 

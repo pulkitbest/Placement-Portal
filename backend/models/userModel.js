@@ -62,6 +62,22 @@ const userSchema = mongoose.Schema({
     dateOfBirth: {
         type: String,
         required: true
+    },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    otpForEmail: {
+        type: String,
+        required: true
+    },
+    otpForCollegeEmail: {
+        type: String,
+        required: true
+    },
+    otpForPhone: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true
