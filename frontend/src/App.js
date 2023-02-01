@@ -29,6 +29,7 @@ const App = () => {
           <Route path='/order/:id' component={OrderScreen}/>
           {/* <Route path='/placeorder' component={PlaceOrderScreen}/> */}
           <Route path='/placeorder/:id' component={PlaceOrderScreen}/>
+          {/* <Route path='/login' component={LoginScreen}/> */}
           <Route path='/login' component={LoginScreen}/>
           <Route path='/register' component={RegisterScreen}/>
           <Route path='/verification/:id' component={UserVerificationScreen}/>

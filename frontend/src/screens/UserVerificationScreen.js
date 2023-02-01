@@ -21,17 +21,12 @@ const UserVerificationScreen = ({match, history}) => {
     const userVerification = useSelector(state => state.userVerification)
     const {loading, error, success} = userVerification
 
-    const redirect = '/'
-
-    console.log(success)
-
     useEffect(() => {
         if(success){
-            console.log(success)
-            history.push(redirect)
+            history.push('/')
         }
 
-    }, [history, success, redirect])
+    }, [history, success])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -87,7 +82,7 @@ const UserVerificationScreen = ({match, history}) => {
                         required>
                     </Form.Control>
                 </Form.Group>
-                <h4> </h4>
+                <h2> </h2>
                 <Button type='submit' variant='primary'>
                     Verify
                 </Button>
