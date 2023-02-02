@@ -7,34 +7,34 @@ import sendMail from '../utils/mail.js'
 //@desc Auth user and get token
 //@route POST /api/users/login
 //@access Public
-const authUser = asyncHandler(async (req, res) => {
-    const {email, password} = req.body
+// const authUser = asyncHandler(async (req, res) => {
+//     const {email, password} = req.body
     
-    const user = await User.findOne({email})
+//     const user = await User.findOne({email})
 
-    if(user && (await user.matchPassword(password))){
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            collegeEmail: user.collegeEmail,
-            rollNumber: user.rollNumber,
-            phone: user.phone,
-            resume: user.resume,
-            cgpa: user.cgpa,
-            tenthPercentage: user.tenthPercentage,
-            twelfthPercentage: user.twelfthPercentage,
-            department: user.department,
-            programme: user.programme,
-            dateOfBirth: user.dateOfBirth,
-            isAdmin: user.isAdmin,
-            token: generateToken(user._id),
-        })
-    }else{
-        res.status(401)
-        throw new Error('Invalid email or password')
-    } 
-})
+//     if(user && (await user.matchPassword(password))){
+//         res.json({
+//             _id: user._id,
+//             name: user.name,
+//             email: user.email,
+//             collegeEmail: user.collegeEmail,
+//             rollNumber: user.rollNumber,
+//             phone: user.phone,
+//             resume: user.resume,
+//             cgpa: user.cgpa,
+//             tenthPercentage: user.tenthPercentage,
+//             twelfthPercentage: user.twelfthPercentage,
+//             department: user.department,
+//             programme: user.programme,
+//             dateOfBirth: user.dateOfBirth,
+//             isAdmin: user.isAdmin,
+//             token: generateToken(user._id),
+//         })
+//     }else{
+//         res.status(401)
+//         throw new Error('Invalid email or password')
+//     } 
+// })
 
 //@desc Auth user using otp and get token
 //@route POST /api/users/login
@@ -64,7 +64,7 @@ const authUserWithOTP = asyncHandler(async(req, res) => {
         })
     }else{
         res.status(401)
-        throw new Error('Invalid email or password')
+        throw new Error('Invalid OTP')
     } 
 })
 
@@ -117,7 +117,6 @@ const registerUser = asyncHandler(async (req, res) => {
         collegeEmail, 
         rollNumber, 
         phone, 
-        password, 
         resume, 
         cgpa, 
         tenthPercentage, 
@@ -143,8 +142,7 @@ const registerUser = asyncHandler(async (req, res) => {
         email, 
         collegeEmail, 
         rollNumber, 
-        phone, 
-        password, 
+        phone,
         resume, 
         cgpa, 
         tenthPercentage, 
@@ -199,30 +197,39 @@ const verifyUserAll = asyncHandler(async(req, res) => {
         res.status(404) 
         throw new Error('User Not Found')
     }
-    if(user.otpForEmail !== otpForEmail || user.otpForCollegeEmail !== otpForCollegeEmail || user.otpForPhone !== otpForPhone) {
+    if((!otpForEmail || (otpForEmail && otpForEmail === user.otpForEmail)) &&
+        (!otpForCollegeEmail || (otpForCollegeEmail && otpForCollegeEmail === user.otpForCollegeEmail)) && 
+        (!otpForPhone || (otpForPhone && otpForPhone === user.otpForPhone))) {
+            try {
+                user.verified = true
+                await user.save()
+                res.status(200).json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    collegeEmail: user.collegeEmail,
+                    rollNumber: user.rollNumber,
+                    phone: user.phone,
+                    resume: user.resume,
+                    cgpa: user.cgpa,
+                    tenthPercentage: user.tenthPercentage,
+                    twelfthPercentage: user.twelfthPercentage,
+                    department: user.department,
+                    programme: user.programme,
+                    dateOfBirth: user.dateOfBirth,
+                    isAdmin: user.isAdmin,
+                    verified: user.verified,
+                    token: generateToken(user._id),
+                })
+            } catch (error) {
+                res.status(400)
+                throw new Error('Could not verify user')
+            }
+    }
+    else{
         res.status(400)
         throw new Error('Invalid OTP')
     }
-    user.verified = true
-    await user.save()
-    res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        collegeEmail: user.collegeEmail,
-        rollNumber: user.rollNumber,
-        phone: user.phone,
-        resume: user.resume,
-        cgpa: user.cgpa,
-        tenthPercentage: user.tenthPercentage,
-        twelfthPercentage: user.twelfthPercentage,
-        department: user.department,
-        programme: user.programme,
-        dateOfBirth: user.dateOfBirth,
-        isAdmin: user.isAdmin,
-        verified: user.verified,
-        token: generateToken(user._id),
-    })
 })
 
 //@desc Get user profile
@@ -274,11 +281,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         user.department = req.body.department || user.department
         user.programme = req.body.programme || user.programme
         user.dateOfBirth = req.body.dateOfBirth || user.dateOfBirth
-        if(req.body.password) {
-            user.password = req.body.password
-        }
 
-        const updatedUser = await user.save()
+        await user.save()
 
         res.json({
             _id: user._id,
@@ -331,7 +335,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 //@route GET /api/users/:id
 //@access Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id).select('-password')
+    const user = await User.findById(req.params.id)
     if(user){
         res.json(user)
     } else{
@@ -352,20 +356,20 @@ const updateUser = asyncHandler(async (req, res) => {
         const updatedUser = await user.save()
 
         res.json({
-            _id: updateUser._id,
-            name: updateUser.name,
-            email: updateUser.email,
-            collegeEmail: updateUser.collegeEmail,
-            rollNumber: updateUser.rollNumber,
-            phone: updateUser.phone,
-            resume: updateUser.resume,
-            cgpa: updateUser.cgpa,
-            tenthPercentage: updateUser.tenthPercentage,
-            twelfthPercentage: updateUser.twelfthPercentage,
-            department: updateUser.department,
-            programme: updateUser.programme,
-            dateOfBirth: updateUser.dateOfBirth,
-            isAdmin: updateUser.isAdmin,
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            collegeEmail: updatedUser.collegeEmail,
+            rollNumber: updatedUser.rollNumber,
+            phone: updatedUser.phone,
+            resume: updatedUser.resume,
+            cgpa: updatedUser.cgpa,
+            tenthPercentage: updatedUser.tenthPercentage,
+            twelfthPercentage: updatedUser.twelfthPercentage,
+            department: updatedUser.department,
+            programme: updatedUser.programme,
+            dateOfBirth: updatedUser.dateOfBirth,
+            isAdmin: updatedUser.isAdmin,
         })
 
     }
@@ -375,7 +379,7 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
-export {authUser, 
+export { 
     authUserWithOTP,
     generateOTPForLogin,
     getUserProfile, 
@@ -385,4 +389,5 @@ export {authUser,
     getUsers, 
     deleteUser, 
     getUserById, 
-    updateUser}
+    updateUser
+}

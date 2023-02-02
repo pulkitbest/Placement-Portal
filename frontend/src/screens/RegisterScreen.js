@@ -21,8 +21,6 @@ const RegisterScreen = ({location, history}) => {
     const [department, setDepartment] = useState('')
     const [programme, setProgramme] = useState('')
     const [dateOfBirth, setDateOfBirth] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState(null)
     const [uploading, setUploading] = useState(false)
     const [validated, setValidated] = useState(false)
@@ -49,25 +47,20 @@ const RegisterScreen = ({location, history}) => {
             e.stopPropagation();
         }
         setValidated(true);
-        if(password !== confirmPassword){
-            setMessage('Passwords do not match')
-        }else{
-            dispatch(register(
-                name, 
-                email, 
-                collegeEmail, 
-                rollNumber, 
-                phone, 
-                password, 
-                resume, 
-                cgpa, 
-                tenthPercentage, 
-                twelfthPercentage, 
-                department, 
-                programme, 
-                dateOfBirth
-            ))
-        }
+        dispatch(register(
+            name, 
+            email, 
+            collegeEmail, 
+            rollNumber, 
+            phone, 
+            resume, 
+            cgpa, 
+            tenthPercentage, 
+            twelfthPercentage, 
+            department, 
+            programme, 
+            dateOfBirth
+        ))
     }
 
     const uploadFileHandler = async(e) => {
@@ -244,26 +237,6 @@ const RegisterScreen = ({location, history}) => {
                         step='.1'
                         required
                         onChange={(e) => setTwelfthPercentage(e.target.value)}>
-                    </Form.Control>
-                </Form.Group>
-                <h4> </h4>
-                <Form.Group controlId='password'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control 
-                        type='password' 
-                        placeholder='Enter Password' 
-                        required
-                        value={password} onChange={(e) => setPassword(e.target.value)}>
-                    </Form.Control>
-                </Form.Group>
-                <h4> </h4>
-                <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control 
-                        type='password' 
-                        placeholder='Confirm Password'
-                        required 
-                        value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <h2> </h2>

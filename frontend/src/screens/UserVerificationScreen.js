@@ -35,7 +35,7 @@ const UserVerificationScreen = ({match, history}) => {
             e.preventDefault();
             e.stopPropagation();
         }
-        setValidated(true);
+        // setValidated(true);
         dispatch(verify(
             userId,
             otpForEmail,

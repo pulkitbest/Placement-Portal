@@ -38,6 +38,10 @@ const LoginOTPScreen = ({location, history}) => {
         dispatch(generateOTP(email))
     }
 
+    const reEnterEmailHandler = (e) => {
+        window.location.reload();
+    }
+
     return (
         <FormContainer>
             <h1>Sign In</h1>
@@ -46,6 +50,7 @@ const LoginOTPScreen = ({location, history}) => {
             {loading && <Loader />}
             {loadingLogin && <Loader />}
             {!success ? 
+            <>
             <Form onSubmit={generateOTPHandler}>
                 <Form.Group controlId='email'>
                     <Form.Label>Email Address</Form.Label>
@@ -56,10 +61,17 @@ const LoginOTPScreen = ({location, history}) => {
                     </Form.Control>
                 </Form.Group>
                 <h2> </h2>
-                <Button type='submit' variant='primary'>
+                <Button type='submit' variant='dark'>
                     Get OTP
                 </Button>
-            </Form> :
+            </Form> 
+            <Row className='py-3'>
+                <Col>
+                New Customer? <Link to={'/register'}>Register</Link>
+                </Col>
+            </Row>
+            </>:
+            <>
             <Form onSubmit={loginHandler}>
                 <Form.Group controlId='otp'>
                     <Form.Label>OTP sent to your Phone</Form.Label>
@@ -69,16 +81,16 @@ const LoginOTPScreen = ({location, history}) => {
                         value={otp} onChange={(e) => setOTP(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
-                <h2> </h2>
-                <Button type='submit' variant='primary'>
+                <h4> </h4>
+                <Button type='submit' variant='dark' className='col-12'>
                     Sign In
                 </Button>
-            </Form>}
-            <Row className='py-3'>
-                <Col>
-                New Customer? <Link to={'/register'}>Register</Link>
-                </Col>
-            </Row>
+            </Form>
+            <h4> </h4>
+            <Button onClick={reEnterEmailHandler} variant='outline-secondary' className='col-12'>
+                RE-ENTER EMAIL
+            </Button>
+            </>}
         </FormContainer>
     )
 }
