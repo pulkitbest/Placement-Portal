@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 
-const userSchema = mongoose.Schema({
+const recruiterSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -9,55 +9,31 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
-    },
-    collegeEmail: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    rollNumber: {
-        type: String,
-        required: true,
         unique: true,
     },
-    phone: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    isAdmin: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    resume: {
+    mobileNumber: {
         type: String,
         required: true,
     },
-    cgpa: {
-        type: Number,
-        required: true,
-    },
-    tenthPercentage: {
-        type: Number,
-        required: true,
-    },
-    twelfthPercentage: {
-        type: Number,
-        required: true,
-    },
-    department: {
+    phoneNumber: {
         type: String,
         required: true,
     },
-    programme: {
+    nameOftheCompany: {
         type: String,
-        required: true
+        required: true,
     },
-    dateOfBirth: {
+    designation: {
         type: String,
-        required: true
+        required: true,
+    },
+    officeAddress: {
+        type: String,
+        required: true,
+    },
+    modeOfRecruitment: {
+        type: String,
+        required: true,
     },
     verified: {
         type: Boolean,
@@ -67,11 +43,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    otpForCollegeEmail: {
-        type: String,
-        required: true
-    },
-    otpForPhone: {
+    otpForMobileNumber: {
         type: String,
         required: true
     }
@@ -79,12 +51,12 @@ const userSchema = mongoose.Schema({
     timestamps: true
 })
 
-// userSchema.methods.matchPassword = async function(enteredPassword) {
+// companySchema.methods.matchPassword = async function(enteredPassword) {
 //     return await bcrypt.compare(enteredPassword, this.password)
 // }
 
-// //encrypt password before creating new user
-// userSchema.pre('save', async function(next){
+// //encrypt password before creating new company
+// companySchema.pre('save', async function(next){
 //     if(!this.isModified('password')){
 //         next()
 //     }
@@ -93,6 +65,6 @@ const userSchema = mongoose.Schema({
 //     this.password = await bcrypt.hash(this.password, salt)
 // })
 
-const User = mongoose.model('User', userSchema)
+const Recruiter = mongoose.model('Recruiter', recruiterSchema)
 
-export default User
+export default Recruiter
