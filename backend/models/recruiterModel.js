@@ -46,6 +46,10 @@ const recruiterSchema = mongoose.Schema({
     otpForMobileNumber: {
         type: String,
         required: true
+    },
+    verifiedByAdmin: {
+        type: Boolean,
+        default: false,
     }
 }, {
     timestamps: true

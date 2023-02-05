@@ -41,6 +41,8 @@ const ProfileScreen = ({location, history}) => {
         <Row>
             <Col md={4}>
                 <h1 className='text-center'>USER PROFILE</h1>
+                {loading && <Loader />}
+                {error && <Message>{error}</Message>}
                 <ListGroup variant='flush'>
                     <ListGroup.Item>
                         <Link to={'/profile/update'}>
@@ -48,6 +50,11 @@ const ProfileScreen = ({location, history}) => {
                             <i className='fa fa-cog' aria-hidden="true"></i> update
                             </Button>
                         </Link>
+                    </ListGroup.Item>
+                    <ListGroup.Item className='text-center py-3'>
+                        Verification: {user.verified ? <i className='fas fa-check' style={{color: 'green'}}></i> : (
+                                    <i className='fas fa-times' style={{color: 'red'}}></i>
+                                )}
                     </ListGroup.Item>
                     <ListGroup.Item className='text-center py-3'>
                         Name: {user.name}
@@ -84,6 +91,7 @@ const ProfileScreen = ({location, history}) => {
             <Col md={1}> </Col>
             <Col md={7}>
                 <h1 className='text-center'>RESUME</h1>
+                {loading && <Loader />}
                 {error && <Message>{error}</Message>}
                 <div className="viewer">
                 {user.resume&&(

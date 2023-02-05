@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import recruiterRoutes from './routes/recruiterRoutes.js'
+import jobOpeningRoutes from './routes/jobOpeningRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 
 dotenv.config()
@@ -28,6 +29,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/recruiters', recruiterRoutes)
+app.use('/api/jobOpenings', jobOpeningRoutes)
 
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))

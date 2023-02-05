@@ -180,6 +180,7 @@ const registerUser = asyncHandler(async (req, res) => {
             programme: user.programme,
             dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
+            verified: user.verified,
         })
     } catch(error){
         res.status(400)
@@ -254,6 +255,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
             programme: user.programme,
             dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
+            verified: user.verified,
         })
     }
     else{
@@ -299,6 +301,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             programme: user.programme,
             dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
+            verified: user.verified,
             token: generateToken(user._id),
         })
 
@@ -370,6 +373,7 @@ const updateUser = asyncHandler(async (req, res) => {
             programme: updatedUser.programme,
             dateOfBirth: updatedUser.dateOfBirth,
             isAdmin: updatedUser.isAdmin,
+            verified: user.verified,
         })
 
     }
