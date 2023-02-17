@@ -192,7 +192,7 @@ const getRecruiterProfile = asyncHandler(async (req, res) => {
     }
     else{
         res.status(404)
-        throw new Error('Recruiter not Found!')
+        throw new Error('Recruiter not Found!')  
     }
 })
 

@@ -7,7 +7,8 @@ import {
     productDeleteReducer,
     productCreateReducer,
     productUpdateReducer,
-    productReviewCreateReducer} from './reducers/productReducers' 
+    productReviewCreateReducer
+} from './reducers/productReducers' 
 import {
     userLoginReducer, 
     userRegisterReducer, 
@@ -17,22 +18,50 @@ import {
     userListReducer, 
     userDeleteReducer,
     userUpdateReducer,
-    userGenerateOTPReducer} from './reducers/userReducers'
+    userGenerateOTPReducer
+} from './reducers/userReducers'
 import {
     orderCreateReducer, 
     orderDetailsReducer, 
     orderPayReducer, 
     orderDeliverReducer,
     orderListMyReducer,
-    orderListReducer} from './reducers/orderReducers'
+    orderListReducer
+} from './reducers/orderReducers'
+import {
+    jobOpeningListReducer,
+    jobOpeningDetailsReducer,
+    jobOpeningCommentCreateReducer,
+    jobOpeningListMyReducer,
+    jobOpeningCreateReducer,
+    jobOpeningDeleteReducer,
+    jobOpeningUpdateReducer
+} from './reducers/jobOpeningReducers'
+import {
+    recruiterLoginReducer,
+    recruiterGenerateOTPReducer,
+    recruiterRegisterReducer,
+    recruiterVerificationReducer,
+    recruiterDetailsReducer,
+    recruiterUpdateProfileReducer
+} from './reducers/recruiterReducers'
 
 const reducer = combineReducers({
+    jobOpeningList: jobOpeningListReducer,
+    jobOpeningListMy: jobOpeningListMyReducer,
+    jobOpeningDetails: jobOpeningDetailsReducer,
+    jobOpeningCommentCreate: jobOpeningCommentCreateReducer,
+    jobOpeningCreate: jobOpeningCreateReducer,
+    jobOpeningDelete: jobOpeningDeleteReducer,
+    jobOpeningUpdate: jobOpeningUpdateReducer,
+
     productList: productListReducer,
     productDetails: productDetailsReducer,
     productDelete: productDeleteReducer,
     productCreate: productCreateReducer,
     productUpdate: productUpdateReducer,
     productReviewCreate: productReviewCreateReducer,
+
     userLogin: userLoginReducer,
     userGenerateOTP: userGenerateOTPReducer,
     userRegister: userRegisterReducer,
@@ -42,6 +71,14 @@ const reducer = combineReducers({
     userList: userListReducer,
     userDelete: userDeleteReducer,
     userUpdate: userUpdateReducer,
+
+    recruiterLogin: recruiterLoginReducer,
+    recruiterGenerateOTP: recruiterGenerateOTPReducer,
+    recruiterRegister: recruiterRegisterReducer,
+    recruiterVerification: recruiterVerificationReducer,
+    recruiterDetails: recruiterDetailsReducer,
+    recruiterUpdateProfile: recruiterUpdateProfileReducer,
+
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
@@ -51,9 +88,11 @@ const reducer = combineReducers({
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')):null
+const recruiterInfoFromStorage = localStorage.getItem('recruiterInfo') ? JSON.parse(localStorage.getItem('recruiterInfo')):null
 
 const initialState = {
-    userLogin: {userInfo: userInfoFromStorage}
+    userLogin: {userInfo: userInfoFromStorage},
+    recruiterLogin: {recruiterInfo: recruiterInfoFromStorage}
 }
 const middleware = [thunk]
 const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))

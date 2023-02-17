@@ -5,17 +5,9 @@ const commentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    comment: {
+    description: {
         type: String,
         required: true
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    recruiter: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recruiter'
     }
 }, {
     timestamps: true
@@ -46,184 +38,133 @@ const jobOpeningSchema = mongoose.Schema({
     tentativeJoiningDate: {
         type: Date,
         required: true,
+        default: Date.now()
     },
     tentativeJobLocation: {
-        type: [String],
+        type: String,
         required: true,
     },
     jobDescription: {
         type: String,
         required: true,
     },
-    intakeOfStudents: {
-        minValue: {
-            type: Number,
-            required: true,
-        },
-        maxValue: {
-            type: Number,
-            required: true,
-        }
-    },
-    eligibleStudents: {
-        type: [String],
+    minIntakeOfStudents: {
+        type: Number,
         required: true,
     },
-    compensationDetails: {
-        bTech: {
-            ctc: {
-                type: String,
-                required: true,
-            },
-            basePay: {
-                type: String,
-                required: true,
-            },
-            stocks: {
-                type: String,
-                default: 'NA',
-            },
-            stockOptions: {
-                type: String,
-                default: 'NA',
-            },
-            detailedBreakDown: {
-                type: String,
-                default: 'NA',
-            }
-        },
-        mTech: {
-            ctc: {
-                type: String,
-                required: true,
-            },
-            basePay: {
-                type: String,
-                required: true,
-            },
-            stocks: {
-                type: String,
-                default: 'NA',
-            },
-            stockOptions: {
-                type: String,
-                default: 'NA',
-            },
-            detailedBreakDown: {
-                type: String,
-                default: 'NA',
-            }
-        }
+    maxIntakeOfStudents: {
+        type: Number,
+        required: true,
+    },
+    eligibleStudents: [String],
+    bTechCTC: {
+        type: String,
+        required: true,
+    },
+    bTechBasePay: {
+        type: String,
+        required: true,
+    },
+    bTechStocks: {
+        type: String,
+        required: true,
+    },
+    bTechStockOptions: {
+        type: String,
+        required: true,
+    },
+    bTechDetailedBreakDown: {
+        type: String,
+        required: true,
+    },
+    mTechCTC: {
+        type: String,
+        required: true,
+    },
+    mTechBasePay: {
+        type: String,
+        required: true,
+    },
+    mTechStocks: {
+        type: String,
+        required: true,
+    },
+    mTechStockOptions: {
+        type: String,
+        required: true,
+    },
+    mTechDetailedBreakDown: {
+        type: String,
+        required: true,
     },
     relocationBenefits: {
         type: String,
-        required: true,
-        default: '',
+        default: 'NA',
     },
     serviceBond: {
         type: String,
-        required: true,
-        default: '',
+        default: 'NA',
     },
     medicalRequirements: {
         type: String,
+        default: 'NA',
+    },
+    tenthPercentage: {
+        type: Number,
         required: true,
-        default: '',
+        default: 0,
     },
-    minimumCg: {
-        tenthPercentage: {
-            type: Number,
-            required: true,
-            default: 0,
-        },
-        twelthPercentage: {
-            type: Number,
-            required: true,
-            default: 0,
-        },
-        cgpa: {
-            type: Number,
-            required: true,
-            default: 0,
-        }
+    twelfthPercentage: {
+        type: Number,
+        required: true,
+        default: 0,
     },
-    rounds: {
-        aptitudeTest: {
-            yesOrNo: {
-                type: Boolean,
-                required: true,
-            },
-            duration: {
-                type: String,
-                required: true,
-            },
-            numberOfRounds: {
-                type: Number,
-                required: true,
-            }
-        },
-        onlineTechnicalTest: {
-            yesOrNo: {
-                type: Boolean,
-                required: true,
-            },
-            duration: {
-                type: String,
-                required: true,
-            },
-            numberOfRounds: {
-                type: Number,
-                required: true,
-            }
-        },
-        groupDiscussion: {
-            yesOrNo: {
-                type: Boolean,
-                required: true,
-            },
-            duration: {
-                type: String,
-                required: true,
-            },
-            numberOfRounds: {
-                type: Number,
-                required: true,
-            }
-        },
-        technicalInterviews: {
-            yesOrNo: {
-                type: Boolean,
-                required: true,
-            },
-            duration: {
-                type: String,
-                required: true,
-            },
-            numberOfRounds: {
-                type: Number,
-                required: true,
-            }
-        },
-        hrInterviews: {
-            yesOrNo: {
-                type: Boolean,
-                required: true,
-            },
-            duration: {
-                type: String,
-                required: true,
-            },
-            numberOfRounds: {
-                type: Number,
-                required: true,
-            }
-        },
+    cgpa: {
+        type: Number,
+        required: true,
+        default: 0,
     },
-    registeredStudents: [String],
+    aptitudeTest: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    onlineTechnicalTest: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    groupDiscussion: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    technicalInterviews: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    hrInterviews: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    verifiedByAdmin: {
+        type: Boolean,
+        default: false,
+    },
+    formDeadline: {
+        type: Date,
+        required: true,
+        default: Date.now()
+    },
     comments: [commentSchema],
-
+    image: {
+        type: String,
+        required: true
+    }
 }, {
-    timestamps: true
+    timestamps: true 
 })
 
 const JobOpening = mongoose.model('JobOpening', jobOpeningSchema)

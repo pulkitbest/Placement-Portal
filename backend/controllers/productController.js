@@ -67,12 +67,12 @@ const updateProduct = asyncHandler(async (req, res) => {
     const {name, image, ctc, role, description, deadline, location} = req.body
     const product = await Product.findById(req.params.id)
     if(product){
-        product.name = name,
-        product.image = image,
-        product.ctc = ctc,
-        product.role = role,
-        product.description = description,
-        product.deadline = deadline,
+        product.name = name
+        product.image = image
+        product.ctc = ctc
+        product.role = role
+        product.description = description
+        product.deadline = deadline
         product.location = location
         const updatedProduct = await product.save()
         res.json(updatedProduct)

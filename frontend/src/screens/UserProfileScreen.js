@@ -1,19 +1,16 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import axios from 'axios'
-import {Nav, Form, Button, Row, Col, Table, ListGroup} from 'react-bootstrap'
+import {Button, Row, Col, ListGroup} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {getUserDetails, updateUserProfile} from '../actions/userActions'
-import {listMyOrders} from '../actions/orderActions'
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import {getUserDetails} from '../actions/userActions'
 import { Worker, Viewer } from '@react-pdf-viewer/core'
 import '@react-pdf-viewer/core/lib/styles/index.css'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 
-const ProfileScreen = ({location, history}) => {
+const UserProfileScreen = ({history}) => {
     const dispatch = useDispatch()
 
     const userDetails = useSelector(state => state.userDetails)
@@ -45,7 +42,7 @@ const ProfileScreen = ({location, history}) => {
                 {error && <Message>{error}</Message>}
                 <ListGroup variant='flush'>
                     <ListGroup.Item>
-                        <Link to={'/profile/update'}>
+                        <Link to={'/student/profile/update'}>
                             <Button variant='outline-dark' className='col-12'>
                             <i className='fa fa-cog' aria-hidden="true"></i> update
                             </Button>
@@ -105,4 +102,4 @@ const ProfileScreen = ({location, history}) => {
     )
 }
 
-export default ProfileScreen
+export default UserProfileScreen

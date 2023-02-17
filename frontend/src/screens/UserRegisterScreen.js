@@ -8,7 +8,7 @@ import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import {register} from '../actions/userActions'
 
-const RegisterScreen = ({location, history}) => {
+const UserRegisterScreen = ({location, history}) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [collegeEmail, setCollegeEmail] = useState('')
@@ -34,7 +34,7 @@ const RegisterScreen = ({location, history}) => {
 
     useEffect(() => {
         if(userInfo){
-            history.push(`/verification/${userInfo._id}`)
+            history.push(`/student/verification/${userInfo._id}`)
         }
 
     }, [history, userInfo])
@@ -87,7 +87,7 @@ const RegisterScreen = ({location, history}) => {
 
     return (
         <FormContainer>
-            <h1>Sign Up</h1>
+            <h1>Student Sign Up</h1>
             {message && <Message variant='danger'>{message}</Message>}
             {error && <Message variant='danger'>{error}</Message>}
             {loading && <Loader />}
@@ -240,17 +240,17 @@ const RegisterScreen = ({location, history}) => {
                     </Form.Control>
                 </Form.Group>
                 <h2> </h2>
-                <Button type='submit' variant='primary'>
+                <Button type='submit' variant='success' className='col-12'>
                     Register
                 </Button>
             </Form>
             <Row className='py-3'>
                 <Col>
-                Have an Account? <Link to={'login'}>Log In</Link>
+                Have an Account? <Link to={'/student/login'}>Log In</Link>
                 </Col>
             </Row>
         </FormContainer>
     )
 }
 
-export default RegisterScreen
+export default UserRegisterScreen

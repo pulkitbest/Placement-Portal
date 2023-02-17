@@ -6,24 +6,23 @@ import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import {verify} from '../actions/userActions'
+import {verify} from '../actions/recruiterActions'
 
-const UserVerificationScreen = ({match, history}) => {
-    const userId = match.params.id
+const RecruiterVerificationScreen = ({match, history}) => {
+    const recruiterId = match.params.id
 
     const [otpForEmail, setOtpForEmail] = useState('')
-    const [otpForCollegeEmail, setOtpForCollegeEmail] = useState('')
-    const [otpForPhone, setOtpForPhone] = useState('')
+    const [otpForMobileNumber, setOtpForMobileNumber] = useState('')
     const [validated, setValidated] = useState(false)
 
     const dispatch = useDispatch()
 
-    const userVerification = useSelector(state => state.userVerification)
-    const {loading, error, success} = userVerification
+    const recruiterVerification = useSelector(state => state.recruiterVerification)
+    const {loading, error, success} = recruiterVerification
 
     useEffect(() => {
         if(success){
-            history.push('/student')
+            history.push('/recruiter')
         }
 
     }, [history, success])
@@ -37,10 +36,9 @@ const UserVerificationScreen = ({match, history}) => {
         }
         // setValidated(true);
         dispatch(verify(
-            userId,
+            recruiterId,
             otpForEmail,
-            otpForCollegeEmail,
-            otpForPhone,
+            otpForMobileNumber,
         ))
     }
 
@@ -61,24 +59,13 @@ const UserVerificationScreen = ({match, history}) => {
                     </Form.Control>
                 </Form.Group>
                 <h4> </h4>
-                <Form.Group controlId='otpForCollegeEmail'>
-                    <Form.Label>OTP sent to College Email Account</Form.Label>
+                <Form.Group controlId='otpForMobileNumber'>
+                    <Form.Label>OTP sent to Mobile Number</Form.Label>
                     <Form.Control 
                         type='text' 
                         placeholder='Enter OTP' 
-                        value={otpForCollegeEmail} 
-                        onChange={(e) => setOtpForCollegeEmail(e.target.value)}
-                        required>
-                    </Form.Control>
-                </Form.Group>
-                <h4> </h4>
-                <Form.Group controlId='otpForPhone'>
-                    <Form.Label>OTP sent to Phone</Form.Label>
-                    <Form.Control 
-                        type='text' 
-                        placeholder='Enter OTP' 
-                        value={otpForPhone} 
-                        onChange={(e) => setOtpForPhone(e.target.value)}
+                        value={otpForMobileNumber} 
+                        onChange={(e) => setOtpForMobileNumber(e.target.value)}
                         required>
                     </Form.Control>
                 </Form.Group>
@@ -91,4 +78,4 @@ const UserVerificationScreen = ({match, history}) => {
     )
 }
 
-export default UserVerificationScreen
+export default RecruiterVerificationScreen
