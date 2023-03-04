@@ -16,7 +16,7 @@ const RecruiterProfileScreen = ({history}) => {
     const recruiterLogin = useSelector(state => state.recruiterLogin)
     const {recruiterInfo} = recruiterLogin
 
-    useEffect(() => {
+    useEffect(() => { 
         if(!recruiterInfo){
             history.push('/login')
         } else {

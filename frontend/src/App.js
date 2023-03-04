@@ -23,10 +23,15 @@ import UserUpdateScreen from './screens/UserUpdateScreen'
 import RecruiterProfileScreen from './screens/RecruiterProfileScreen'
 import RecruiterUpdateScreen from './screens/RecruiterUpdateScreen'
 
+import UserListScreen from './screens/UserListScreen'
+import RecruiterListScreen from './screens/RecruiterListScreen'
+
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderScreen from './screens/OrderScreen'
-import UserListScreen from './screens/UserListScreen'
+
 import UserEditScreen from './screens/UserEditScreen'
+import RecruiterEditScreen from './screens/RecruiterEditScreen'
+
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
@@ -68,25 +73,31 @@ const App = () => {
           <Route path='/student/profile/update' component={UserUpdateScreen}/>
           <Route path='/recruiter/profile' component={RecruiterProfileScreen} exact/>
           <Route path='/recruiter/profile/update' component={RecruiterUpdateScreen}/>
+
+          {/*Admin Routes*/}
+          <Route path='/admin/userlist' component={UserListScreen}/>
+          <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
+          <Route path='/admin/recruiterlist' component={RecruiterListScreen}/>
+          <Route path='/admin/recruiter/:id/edit' component={RecruiterEditScreen}/>
           
           
           <Route path='/profile/applications' component={UserApplicationScreen}/>
           <Route path='/cv/:id' component={CvScreen}/>
           <Route path='/product/:id' component={ProductScreen} exact/>
 
-          <Route path='/admin/userlist' component={UserListScreen}/>
-          <Route path='/admin/user/:id/edit' component={UserEditScreen}/>
+          
           <Route path='/admin/productlist' component={ProductListScreen}/>
           <Route path='/admin/orderlist' component={OrderListScreen}/>
           <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>
 
           <Route path='/search/:keyword' component={HomeScreen}/>
 
+          {/* DashBoards */}
           <Route path='/recruiter' component={RecruiterDashboardScreen} exact/>
           <Route path='/student/search/:keyword' component={UserDashboardScreen}/>
           <Route path='/student' component={UserDashboardScreen} exact/>
-          <Route path='/' component={HomeScreen} exact/>
-        </Container>
+          <Route path='/' component={LoginScreen} exact/>
+        </Container> 
       </main>
       <Footer/>
     </Router>

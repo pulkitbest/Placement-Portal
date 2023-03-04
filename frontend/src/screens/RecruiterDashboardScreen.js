@@ -22,7 +22,9 @@ const RecruiterDashboardScreen = ({history}) => {
     useEffect(() => {
         if(!recruiterInfo){
             history.push('/login')
-        } else {
+        } else { 
+            console.log(recruiterInfo)
+            console.log(recruiterInfo.verifiedByAdmin)
             dispatch(listMyJobOpenings())
         }
     }, [dispatch, recruiterInfo, successDelete, history])
@@ -33,6 +35,12 @@ const RecruiterDashboardScreen = ({history}) => {
         }
     }
 
+    const applicantsHandler = (id) => {
+        
+    }
+    
+
+
     return (
         <>
             <Row className='align-items-center'>
@@ -40,11 +48,21 @@ const RecruiterDashboardScreen = ({history}) => {
                     <h1>Job Opening created by you</h1>
                 </Col>
                 <Col className='text-end'>
-                    <Link to='/createJobOpening'>
-                        <Button className='my-3'>
-                            <i className='fas fa-plus'></i> NEW  
+                    {recruiterInfo && (
+                        <Button className='my-3' disabled={!recruiterInfo.verifiedByAdmin} onClick={() => {
+                            history.push('/createJobOpening')
+                        }}>
+                            {recruiterInfo.verifiedByAdmin ? (
+                                <>
+                                    <i className='fas fa-plus'></i> NEW  
+                                </>
+                            ) : (
+                                <>
+                                    Cannot create a Job Opening until Admin verifies you
+                                </> 
+                            )}
                         </Button>
-                    </Link> 
+                    )}
                 </Col>
             </Row>
             {loadingDelete && <Loader />}
@@ -60,14 +78,16 @@ const RecruiterDashboardScreen = ({history}) => {
                             <th>CREATED ON</th>
                             <th>FORM DEADLINE</th>
                             <th>VERIFIED</th>
-                            <th>EDIT</th>
-                            <th>DELETE</th>
                         </tr>
                     </thead>
                     <tbody>
                         {jobOpenings.map(jobOpening => (
                             <tr key={jobOpening._id}>
-                                <td>{jobOpening._id}</td>
+                                <td>
+                                    <Link to={`/jobOpening/${jobOpening._id}`} style={{ textDecoration: 'none' }}>
+                                        {jobOpening._id} <i class="fa fa-link" aria-hidden="true"></i>
+                                    </Link>
+                                </td>
                                 <td>{jobOpening.nameOftheCompany}</td>
                                 <td>{jobOpening.typeOfJobOpening}</td>
                                 <td>{jobOpening.jobDesignation}</td> 
@@ -81,15 +101,16 @@ const RecruiterDashboardScreen = ({history}) => {
                                 {jobOpening.verifiedByAdmin ? <i className='fas fa-check' style={{color: 'green'}}></i> : (
                                     <i className='fas fa-times' style={{color: 'red'}}></i>
                                 )}    
-                                </td>                               
-                                <td> 
+                                </td>     
+                                <td>
+                                    <Button variant='info' className='btn-sm' onClick={() => applicantsHandler(jobOpening._id)}>
+                                        <i class="fa-solid fa-newspaper"></i>
+                                    </Button>
                                     <Link to={`/updateJobOpening/${jobOpening._id}`}>
                                         <Button variant='dark' className='btn-sm'>
                                             <i className='fas fa-edit'></i>
                                         </Button>
-                                    </Link>    
-                                </td>
-                                <td>
+                                    </Link>  
                                     <Button variant='danger' className='btn-sm' onClick={() => deleteJobOpeningHandler(jobOpening._id)}>
                                         <i className='fas fa-trash'></i>
                                     </Button>

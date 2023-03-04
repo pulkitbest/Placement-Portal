@@ -143,6 +143,7 @@ const RecruiterRegisterScreen = ({location, history}) => {
                         value={modeOfRecruitment}   
                         required 
                         onChange={(e) => setModeOfRecruitment(e.target.value)}> 
+                            <option key={'Select Mode of Recruitment'} value={'Select Mode of Recruitment'}>{'Select Mode of Recruitment'}</option>
                             <option key={'Online'} value={'Online'}>{'Online'}</option>
                             <option key={'Offline'} value={'Offline'}>{'Offline'}</option>
                             <option key={'Hybrid'} value={'Hybrid'}>{'Hybrid'}</option>

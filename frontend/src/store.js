@@ -35,7 +35,8 @@ import {
     jobOpeningListMyReducer,
     jobOpeningCreateReducer,
     jobOpeningDeleteReducer,
-    jobOpeningUpdateReducer
+    jobOpeningUpdateReducer,
+    jobOpeningVerifyReducer
 } from './reducers/jobOpeningReducers'
 import {
     recruiterLoginReducer,
@@ -43,7 +44,10 @@ import {
     recruiterRegisterReducer,
     recruiterVerificationReducer,
     recruiterDetailsReducer,
-    recruiterUpdateProfileReducer
+    recruiterUpdateProfileReducer,
+    recruiterListReducer,
+    recruiterDeleteReducer,
+    recruiterVerifyAsAdminReducer
 } from './reducers/recruiterReducers'
 
 const reducer = combineReducers({
@@ -54,6 +58,7 @@ const reducer = combineReducers({
     jobOpeningCreate: jobOpeningCreateReducer,
     jobOpeningDelete: jobOpeningDeleteReducer,
     jobOpeningUpdate: jobOpeningUpdateReducer,
+    jobOpeningVerify: jobOpeningVerifyReducer,
 
     productList: productListReducer,
     productDetails: productDetailsReducer,
@@ -78,6 +83,9 @@ const reducer = combineReducers({
     recruiterVerification: recruiterVerificationReducer,
     recruiterDetails: recruiterDetailsReducer,
     recruiterUpdateProfile: recruiterUpdateProfileReducer,
+    recruiterList: recruiterListReducer,
+    recruiterDelete: recruiterDeleteReducer,
+    recruiterVerifyAsAdmin: recruiterVerifyAsAdminReducer,
 
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,

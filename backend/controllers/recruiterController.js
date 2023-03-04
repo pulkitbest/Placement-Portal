@@ -23,6 +23,7 @@ const authRecruiterWithOTP = asyncHandler(async(req, res) => {
             designation: recruiter.designation,
             officeAddress: recruiter.officeAddress,
             modeOfRecruitment: recruiter.modeOfRecruitment,
+            verifiedByAdmin: recruiter.verifiedByAdmin,
             token: generateToken(recruiter._id),
         })
     }else{

@@ -19,11 +19,12 @@ router.route('/')
 router.route('/myJobOpenings')
     .get(recruiterProtect, getMyJobOpenings)
 
+router.route('/:id/verify').put(protect, admin, verifyJobOpening)
+
 router.route('/:id')
     .get(protect, recruiterProtect, getJobOpeningById)
-    .delete(recruiterProtect, deleteJobOpening)
+    .delete(recruiterProtect, protect, admin, deleteJobOpening)
     .put(recruiterProtect, updateJobOpening)
-    .put(admin, verifyJobOpening)
 
 router.route('/:id/comments').post(protect, recruiterProtect, createJobOpeningReview)
 

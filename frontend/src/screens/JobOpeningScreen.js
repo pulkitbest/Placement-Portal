@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {Row, Col, Image, ListGroup, Button, Form, Badge} from 'react-bootstrap'
 import Loader from '../components/Loader'
 import Message from '../components/Message' 
-import { listJobOpeningDetails, createJobOpeningComment } from '../actions/jobOpeningActions'
-import { JOB_OPENING_CREATE_COMMENT_RESET } from '../constants/jobOpeningConstants' 
+import { listJobOpeningDetails, createJobOpeningComment, verifyJobOpening } from '../actions/jobOpeningActions'
+import { JOB_OPENING_CREATE_COMMENT_RESET, JOB_OPENING_VERIFY_RESET } from '../constants/jobOpeningConstants' 
 
 const JobOpeningScreen = ({history, match}) => {
     const [description, setDescription] = useState('')
@@ -23,6 +23,9 @@ const JobOpeningScreen = ({history, match}) => {
 
     const jobOpeningCommentCreate = useSelector(state => state.jobOpeningCommentCreate)
     const {success:successJobOpeningComment, error:errorJobOpeningComment} = jobOpeningCommentCreate
+
+    const jobOpeningVerify = useSelector(state => state.jobOpeningVerify)
+    const {loading:loadingVerification, success:successVerification, error:errorVerification} = jobOpeningVerify
     
     useEffect(() => {
         if(!userInfo && !recruiterInfo){
@@ -33,12 +36,31 @@ const JobOpeningScreen = ({history, match}) => {
             setDescription('')
             dispatch({type: JOB_OPENING_CREATE_COMMENT_RESET})
         }
+        if(successVerification){
+            dispatch({type: JOB_OPENING_VERIFY_RESET})
+        }
         dispatch(listJobOpeningDetails(match.params.id))
 
-    }, [dispatch, match, successJobOpeningComment, history, userInfo, recruiterInfo])
+    }, [dispatch, match, successJobOpeningComment, successVerification, history, userInfo, recruiterInfo])
 
     const registerHandler = () => {
         // history.push(`/placeorder/${match.params.id}`)
+    }
+
+    const applicantsHandler = () => {
+
+    }
+
+    const verifyHandler = () => {
+        dispatch(verifyJobOpening(match.params.id))
+    }
+
+    const updateHandler = () => {
+        
+    }
+
+    const deleteHandler = () => {
+
     }
 
     const submitHandler = (e) => {
@@ -50,6 +72,8 @@ const JobOpeningScreen = ({history, match}) => {
 
     return (
     <>
+        {loadingVerification && <Loader/>}
+        {errorVerification && <Message>{errorVerification}</Message>}
         {
             loading ?
             <Loader/> :
@@ -96,14 +120,103 @@ const JobOpeningScreen = ({history, match}) => {
                         </ListGroup.Item>
                     </ListGroup>
                     <h2> </h2>
-                    <Button 
-                        onClick={registerHandler}
-                        className='col-12' 
-                        type='button'
-                        variant='outline-primary'
-                    >
-                        Register
-                    </Button>
+                    {
+                        recruiterInfo ? (
+                            jobOpening.verifiedByAdmin ? (
+                                <Button 
+                                    className='col-12' 
+                                    type='button'
+                                    variant='info'
+                                    onClick={applicantsHandler}
+                                >
+                                    Applicants
+                                </Button>
+                            ) : (
+                                <Button 
+                                    className='col-12' 
+                                    type='button'
+                                    variant='dark'
+                                    disabled
+                                >
+                                    Job Opening not verified by admin
+                                </Button>
+                            )
+                        ) : userInfo ? (
+                            userInfo.isAdmin ? (
+                                jobOpening.verifiedByAdmin ? (
+                                    <Button 
+                                        className='col-12' 
+                                        type='button'
+                                        variant='info'
+                                        onClick={applicantsHandler}
+                                    >
+                                        Applicants
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        className='col-12' 
+                                        type='button'
+                                        variant='success'
+                                        onClick={verifyHandler}
+                                    >
+                                        Verify this Job Opening
+                                    </Button>
+                                )
+                            ) : (
+                                <Button 
+                                    onClick={registerHandler}
+                                    className='col-12' 
+                                    type='button'
+                                    variant='success'
+                                >
+                                    Register
+                                </Button>
+                            )
+                        ) : (
+                            <>
+                            </>
+                        )
+                    }
+                    <p> </p>
+                    {
+                        recruiterInfo && (
+                            <Row>
+                                <Col>
+                                    <Button 
+                                        className='col-12' 
+                                        type='button'
+                                        variant='outline-dark'
+                                        onClick={updateHandler}
+                                    >
+                                        <i class="fa fa-pencil" aria-hidden="true"></i> Update
+                                    </Button>
+                                </Col>
+                                <Col>
+                                    <Button 
+                                        className='col-12' 
+                                        type='button'
+                                        variant='outline-danger'
+                                        onClick={deleteHandler}
+                                    >
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                    </Button>
+                                </Col>
+                            </Row>
+                        )
+                    }
+                    <p> </p>
+                    {
+                        userInfo && userInfo.isAdmin && (
+                            <Button 
+                                className='col-12' 
+                                type='button'
+                                variant='danger'
+                                onClick={deleteHandler}
+                            >
+                                <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                            </Button>
+                        )
+                    }
                 </Col>
             </Row>
             <h2> </h2>
@@ -194,7 +307,7 @@ const JobOpeningScreen = ({history, match}) => {
                             </div>
                         </ListGroup.Item>
                         <ListGroup.Item variant='dark'>
-                            <div className="ms-2 me-auto">
+                            <div className="ms-2 me-auto">  
                             <div className="fw-bold">Selection Process</div>
                                 <div>- Aptitude Test: {jobOpening.aptitudeTest ? <i class="fa fa-check" style={{color: 'green'}}></i> : <i class="fa fa-times" style={{color: 'red'}}></i>}</div>
                                 <div>- Online Technical Test: {jobOpening.onlineTechnicalTest ? <i class="fa fa-check" style={{color: 'green'}}></i> : <i class="fa fa-times" style={{color: 'red'}}></i>}</div>

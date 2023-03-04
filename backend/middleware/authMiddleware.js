@@ -20,7 +20,7 @@ const protect = asyncHandler(async (req, res, next) => {
     } 
     if(!token) {
         res.status(401)
-        throw new Error('Not authorized, no token')
+        throw new Error('Not authorized, No Student Token')
     }
 })
 
@@ -41,7 +41,7 @@ const recruiterProtect = asyncHandler(async (req, res, next) => {
     } 
     if(!token) {
         res.status(401)
-        throw new Error('Not authorized, no token')
+        throw new Error('Not authorized, No Recruiter Token')
     }
 })
 
@@ -55,4 +55,4 @@ const admin = (req, res, next) => {
     }
 }
 
-export {protect, admin, recruiterProtect}
+export {protect, admin, recruiterProtect}  

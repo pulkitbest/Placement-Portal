@@ -36,12 +36,12 @@ const Header = () => {
                 <NavDropdown title='Admin Controls' id='adminmenu'>
                   <NavDropdown.Item>
                     <Nav.Link as={Link} to='/admin/userlist'>
-                      <h6><i class="fa fa-user" aria-hidden="true"></i> Users</h6>
+                      <h6><i class="fa fa-user" aria-hidden="true"></i> Students</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
-                    <Nav.Link as={Link} to='/admin/productlist'>
-                      <h6><i class="fa fa-globe"></i> Companies</h6>
+                    <Nav.Link as={Link} to='/admin/recruiterList'>
+                      <h6><i class="fa-solid fa-mug-saucer"></i> Recruiters</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
@@ -79,11 +79,6 @@ const Header = () => {
                   <NavDropdown.Item>
                     <Nav.Link as={Link} to='/recruiter/profile'>
                       <h6><i class="fa fa-user" aria-hidden="true"></i> Profile</h6>
-                    </Nav.Link>
-                  </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Nav.Link as={Link} to='/profile/applications'>
-                      <h6><i className='fa fa-newspaper'></i> My Applications</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>

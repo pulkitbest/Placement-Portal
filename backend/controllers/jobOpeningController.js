@@ -204,14 +204,13 @@ const createJobOpeningReview = asyncHandler(async (req, res) => {
 })
 
 //@desc verify the job opening as admin
-//@route PUT /api/jobOpenings/:id
+//@route PUT /api/jobOpenings/:id/verify
 //@access Admin
 const verifyJobOpening = asyncHandler(async(req, res) => {
-    const {verifiedByAdmin} = req.body
     const jobOpening = await JobOpening.findById(req.params.id)
 
     if(jobOpening){
-        jobOpening.verifiedByAdmin = verifiedByAdmin
+        jobOpening.verifiedByAdmin = true
         const updatedJobOpening = await jobOpening.save()
         res.status(200).json(updatedJobOpening)
     } else {
