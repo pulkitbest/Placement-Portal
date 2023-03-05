@@ -10,7 +10,7 @@ import {
     verifyJobOpening, 
     getMyJobOpenings
 } from '../controllers/jobOpeningController.js'
-import { protect, recruiterProtect, admin } from '../middleware/authMiddleware.js'
+import { protect, recruiterProtect, admin, recruiterAndAdmin } from '../middleware/authMiddleware.js'
 
 router.route('/')
     .get(protect, getJobOpenings)
@@ -23,7 +23,7 @@ router.route('/:id/verify').put(protect, admin, verifyJobOpening)
 
 router.route('/:id')
     .get(protect, recruiterProtect, getJobOpeningById)
-    .delete(recruiterProtect, protect, admin, deleteJobOpening)
+    .delete(recruiterProtect, protect, recruiterAndAdmin, deleteJobOpening)
     .put(recruiterProtect, updateJobOpening)
 
 router.route('/:id/comments').post(protect, recruiterProtect, createJobOpeningReview)
