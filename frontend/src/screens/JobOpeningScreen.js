@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import {Row, Col, Image, ListGroup, Button, Form, Badge} from 'react-bootstrap'
+import {Row, Col, Image, ListGroup, Button, Form} from 'react-bootstrap'
 import Loader from '../components/Loader'
 import Message from '../components/Message' 
 import { listJobOpeningDetails, createJobOpeningComment, verifyJobOpening } from '../actions/jobOpeningActions'
+import { createApplication, listMyApplications } from '../actions/applicationActions'
 import { JOB_OPENING_CREATE_COMMENT_RESET, JOB_OPENING_VERIFY_RESET } from '../constants/jobOpeningConstants' 
+import { APPLICATION_CREATE_RESET } from '../constants/applicationConstants'
 
 const JobOpeningScreen = ({history, match}) => {
     const [description, setDescription] = useState('')
@@ -26,10 +28,20 @@ const JobOpeningScreen = ({history, match}) => {
 
     const jobOpeningVerify = useSelector(state => state.jobOpeningVerify)
     const {loading:loadingVerification, success:successVerification, error:errorVerification} = jobOpeningVerify
+
+    const applicationCreate = useSelector(state => state.applicationCreate)
+    const {loading:loadingApplication, success:successApplication, application, error:errorApplication} = applicationCreate
+
+    const applicationListMy = useSelector(state => state.applicationListMy)
+    const {loading:loadingApplicationList, error:errorApplicationList, applications:applicationList} = applicationListMy
     
     useEffect(() => {
         if(!userInfo && !recruiterInfo){
             history.push('/login')
+        }
+        if(successApplication){
+            dispatch({type: APPLICATION_CREATE_RESET}) 
+            history.push(`/application/${application._id}`) 
         }
         if(successJobOpeningComment){
             alert('Comment Submitted!')
@@ -40,15 +52,18 @@ const JobOpeningScreen = ({history, match}) => {
             dispatch({type: JOB_OPENING_VERIFY_RESET})
         }
         dispatch(listJobOpeningDetails(match.params.id))
+        dispatch(listMyApplications())
 
-    }, [dispatch, match, successJobOpeningComment, successVerification, history, userInfo, recruiterInfo])
+    }, [dispatch, match, successApplication, application, successJobOpeningComment, successVerification, history, userInfo, recruiterInfo])
 
     const registerHandler = () => {
-        // history.push(`/placeorder/${match.params.id}`)
+        dispatch(createApplication({
+            jobOpening: match.params.id
+        }))
     }
 
     const applicantsHandler = () => {
-
+        history.push(`/applicants/${match.params.id}`)
     }
 
     const verifyHandler = () => {
@@ -70,15 +85,23 @@ const JobOpeningScreen = ({history, match}) => {
         }))
     }
 
+    const jobOpeningObject = applicationList && applicationList.flatMap(al => al.jobOpening).find(jo => jo._id === match.params.id)
+    const alreadyRegistered = applicationList && applicationList.find(al => al.jobOpening && al.jobOpening === jobOpeningObject)
+
+    console.log(jobOpeningObject)
+    console.log(alreadyRegistered)
+
+    const applicationHandler = () => {
+        history.push(`/application/${alreadyRegistered._id}`)
+    }
+
     return (
     <>
-        {loadingVerification && <Loader/>}
-        {errorVerification && <Message>{errorVerification}</Message>}
         {
-            loading ?
+            loading || loadingVerification || loadingApplication || loadingApplicationList ?
             <Loader/> :
-            error ?
-            <Message>{error}</Message> :
+            error || errorVerification || errorApplication || errorApplicationList ?
+            <Message>{error || errorVerification || errorApplication || errorApplicationList}</Message> :
             (   
                 <>
                 <Row>
@@ -162,6 +185,15 @@ const JobOpeningScreen = ({history, match}) => {
                                         Verify this Job Opening
                                     </Button>
                                 )
+                            ) : alreadyRegistered ? (
+                                <Button 
+                                    onClick={applicationHandler}
+                                    className='col-12' 
+                                    type='button'
+                                    variant='info'
+                                >
+                                    View Progress
+                                </Button>
                             ) : (
                                 <Button 
                                     onClick={registerHandler}
@@ -338,7 +370,7 @@ const JobOpeningScreen = ({history, match}) => {
                             <h4> </h4>
                             <h4>Write a Query</h4>
                             {errorJobOpeningComment && <Message variant='danger'>{errorJobOpeningComment}</Message>}
-                            {userInfo ? (
+                            {userInfo || recruiterInfo ? (
                                 <Form onSubmit={submitHandler}>
                                     <Form.Group controlId='commment'>
                                         <Form.Label>Comment</Form.Label>

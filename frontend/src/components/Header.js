@@ -59,7 +59,7 @@ const Header = () => {
                     </Nav.Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
-                    <Nav.Link as={Link} to='/profile/applications'>
+                    <Nav.Link as={Link} to='/student/applications'>
                       <h6><i className='fa fa-newspaper'></i> My Applications</h6>
                     </Nav.Link>
                   </NavDropdown.Item>

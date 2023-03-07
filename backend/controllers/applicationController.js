@@ -28,7 +28,10 @@ const createApplication = asyncHandler(async(req, res) => {
 //@route GET /api/applications/:id
 //@access Private
 const getApplicationById = asyncHandler(async (req, res) => {
-    const application = await Application.findById(req.params.id).populate('user', 'name email')
+    const application = await Application.findById(req.params.id)
+                                            .populate('user', 'name rollNumber email collegeEmail phone department programme cgpa tenthPercentage twelfthPercentage resume')
+                                            .populate('jobOpening', 'recruiter nameOftheCompany typeOfJobOpening jobDesignation aptitudeTest onlineTechnicalTest groupDiscussion technicalInterviews hrInterviews')
+    
     if(application){
         res.json(application)
     }else{
@@ -49,7 +52,7 @@ const getApplications = asyncHandler(async (req, res) => {
 //@route GET /api/applications/myapplications
 //@access Private
 const getMyApplications = asyncHandler(async (req, res) => {
-    const applications = await Application.find({user: req.user._id})
+    const applications = await Application.find({user: req.user._id}).populate('jobOpening', 'nameOftheCompany typeOfJobOpening jobDesignation')
     res.json(applications)
 })
 
@@ -57,7 +60,7 @@ const getMyApplications = asyncHandler(async (req, res) => {
 //@route GET /api/applications/jobOpening/:id
 //@access Recruiter & Private/Admin
 const getJobOpeningApplications = asyncHandler(async (req, res) => {
-    const applications = await Application.find({jobOpening: req.params.id}).populate('jobOpening', 'id recruiter')
+    const applications = await Application.find({jobOpening: req.params.id}).populate('jobOpening', 'id recruiter').populate('user', 'id name rollNumber email phone')
     res.json(applications)
 })
 

@@ -15,7 +15,7 @@ router.route('/').post(protect, createApplication).get(protect, admin, getApplic
 
 router.route('/myapplications').get(protect, getMyApplications)
 
-router.route('/:id').get(protect, getApplicationById)
+router.route('/:id').get(protect, recruiterProtect, getApplicationById)
 
 router.route('/jobOpening/:id').get(protect, recruiterProtect, recruiterAndAdmin, getJobOpeningApplications)
 

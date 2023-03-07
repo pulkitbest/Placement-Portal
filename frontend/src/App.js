@@ -36,12 +36,14 @@ import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import CvScreen from './screens/CvScreen'
-import UserApplicationScreen from './screens/UserApplicationScreen'
-
 
 import JobOpeningScreen from './screens/JobOpeningScreen'
 import JobOpeningCreateScreen from './screens/JobOpeningCreateScreen'
 import JobOpeningUpdateScreen from './screens/JobOpeningUpdateScreen'
+
+import UserApplicationListScreen from './screens/UserApplicationListScreen'
+import ApplicationScreen from './screens/ApplicationScreen'
+import ApplicantScreen from './screens/ApplicantScreen'
 
 const App = () => {
   return (
@@ -65,6 +67,9 @@ const App = () => {
           {/*Register Routes */}
           <Route path='/student/register' component={UserRegisterScreen}/>
           <Route path='/student/verification/:id' component={UserVerificationScreen}/>
+          <Route path='/application/:id' component={ApplicationScreen}/>
+          <Route path='/applicants/:id' component={ApplicantScreen}/>
+          <Route path='/student/applications' component={UserApplicationListScreen} exact/>
           <Route path='/recruiter/register' component={RecruiterRegisterScreen}/>
           <Route path='/recruiter/verification/:id' component={RecruiterVerificationScreen}/>
 
@@ -80,12 +85,9 @@ const App = () => {
           <Route path='/admin/recruiterlist' component={RecruiterListScreen}/>
           <Route path='/admin/recruiter/:id/edit' component={RecruiterEditScreen}/>
           
-          
-          <Route path='/profile/applications' component={UserApplicationScreen}/>
           <Route path='/cv/:id' component={CvScreen}/>
           <Route path='/product/:id' component={ProductScreen} exact/>
 
-          
           <Route path='/admin/productlist' component={ProductListScreen}/>
           <Route path='/admin/orderlist' component={OrderListScreen}/>
           <Route path='/admin/product/:id/edit' component={ProductEditScreen}/>

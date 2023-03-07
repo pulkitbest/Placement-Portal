@@ -80,7 +80,7 @@ export const login = (email, otp) => async(dispatch) => {
         dispatch({
             type: USER_LOGIN_SUCCESS,
             payload: data
-        })
+        }) 
 
         localStorage.setItem('userInfo', JSON.stringify(data))
     } catch (error){

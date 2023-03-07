@@ -49,6 +49,12 @@ import {
     recruiterDeleteReducer,
     recruiterVerifyAsAdminReducer
 } from './reducers/recruiterReducers'
+import { 
+    applicationListMyReducer,
+    applicationDetailsReducer,
+    applicationCreateReducer,
+    applicantListReducer
+} from './reducers/applicationReducers'
 
 const reducer = combineReducers({
     jobOpeningList: jobOpeningListReducer,
@@ -86,6 +92,11 @@ const reducer = combineReducers({
     recruiterList: recruiterListReducer,
     recruiterDelete: recruiterDeleteReducer,
     recruiterVerifyAsAdmin: recruiterVerifyAsAdminReducer,
+
+    applicationListMy: applicationListMyReducer,
+    applicationDetails: applicationDetailsReducer,
+    applicationCreate: applicationCreateReducer,
+    applicantList: applicantListReducer,
 
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
