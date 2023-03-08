@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {Row, Col, Image, ListGroup, Button, Form} from 'react-bootstrap'
 import Loader from '../components/Loader'
 import Message from '../components/Message' 
-import { listJobOpeningDetails, createJobOpeningComment, verifyJobOpening } from '../actions/jobOpeningActions'
+import { listJobOpeningDetails, createJobOpeningComment, verifyJobOpening, deleteJobOpening } from '../actions/jobOpeningActions'
 import { createApplication, listMyApplications } from '../actions/applicationActions'
 import { JOB_OPENING_CREATE_COMMENT_RESET, JOB_OPENING_VERIFY_RESET } from '../constants/jobOpeningConstants' 
 import { APPLICATION_CREATE_RESET } from '../constants/applicationConstants'
@@ -29,6 +29,9 @@ const JobOpeningScreen = ({history, match}) => {
     const jobOpeningVerify = useSelector(state => state.jobOpeningVerify)
     const {loading:loadingVerification, success:successVerification, error:errorVerification} = jobOpeningVerify
 
+    const jobOpeningDelete = useSelector(state => state.jobOpeningDelete)
+    const {loading:loadingDelete, success:successDelete, error:errorDelete} = jobOpeningDelete
+
     const applicationCreate = useSelector(state => state.applicationCreate)
     const {loading:loadingApplication, success:successApplication, application, error:errorApplication} = applicationCreate
 
@@ -37,6 +40,9 @@ const JobOpeningScreen = ({history, match}) => {
     
     useEffect(() => {
         if(!userInfo && !recruiterInfo){
+            history.push('/login')
+        }
+        if(successDelete){
             history.push('/login')
         }
         if(successApplication){
@@ -52,9 +58,9 @@ const JobOpeningScreen = ({history, match}) => {
             dispatch({type: JOB_OPENING_VERIFY_RESET})
         }
         dispatch(listJobOpeningDetails(match.params.id))
-        dispatch(listMyApplications())
+        if(userInfo) dispatch(listMyApplications())
 
-    }, [dispatch, match, successApplication, application, successJobOpeningComment, successVerification, history, userInfo, recruiterInfo])
+    }, [dispatch, match, successDelete, successApplication, application, successJobOpeningComment, successVerification, history, userInfo, recruiterInfo])
 
     const registerHandler = () => {
         dispatch(createApplication({
@@ -71,11 +77,11 @@ const JobOpeningScreen = ({history, match}) => {
     }
 
     const updateHandler = () => {
-        
+        history.push(`/updateJobOpening/${match.params.id}`)
     }
 
     const deleteHandler = () => {
-
+        dispatch(deleteJobOpening(match.params.id))
     }
 
     const submitHandler = (e) => {
@@ -85,11 +91,8 @@ const JobOpeningScreen = ({history, match}) => {
         }))
     }
 
-    const jobOpeningObject = applicationList && applicationList.flatMap(al => al.jobOpening).find(jo => jo._id === match.params.id)
-    const alreadyRegistered = applicationList && applicationList.find(al => al.jobOpening && al.jobOpening === jobOpeningObject)
-
-    console.log(jobOpeningObject)
-    console.log(alreadyRegistered)
+    const jobOpeningObject = userInfo && applicationList && applicationList.flatMap(al => al.jobOpening).find(jo => jo._id === match.params.id)
+    const alreadyRegistered = userInfo && applicationList && applicationList.find(al => al.jobOpening && al.jobOpening === jobOpeningObject)
 
     const applicationHandler = () => {
         history.push(`/application/${alreadyRegistered._id}`)
@@ -98,13 +101,14 @@ const JobOpeningScreen = ({history, match}) => {
     return (
     <>
         {
-            loading || loadingVerification || loadingApplication || loadingApplicationList ?
+            loading || loadingVerification || loadingApplication || loadingApplicationList || loadingDelete?
             <Loader/> :
-            error || errorVerification || errorApplication || errorApplicationList ?
-            <Message>{error || errorVerification || errorApplication || errorApplicationList}</Message> :
+            error || errorVerification || errorApplication || errorApplicationList || errorDelete?
+            <Message>{error || errorVerification || errorApplication || errorApplicationList || errorDelete}</Message> :
             (   
                 <>
                 <Row>
+                {userInfo && userInfo.isAdmin && jobOpening.recruiter && <Message>Posted by: {jobOpening.recruiter.name} | Recruiter ID: {jobOpening.recruiter._id}</Message>}
                 <Col md={7}>
                     <Image src={jobOpening.image} alt={jobOpening.nameOftheCompany} fluid/>
                 </Col>
@@ -217,7 +221,7 @@ const JobOpeningScreen = ({history, match}) => {
                                     <Button 
                                         className='col-12' 
                                         type='button'
-                                        variant='outline-dark'
+                                        variant='dark'
                                         onClick={updateHandler}
                                     >
                                         <i class="fa fa-pencil" aria-hidden="true"></i> Update
@@ -227,7 +231,7 @@ const JobOpeningScreen = ({history, match}) => {
                                     <Button 
                                         className='col-12' 
                                         type='button'
-                                        variant='outline-danger'
+                                        variant='danger'
                                         onClick={deleteHandler}
                                     >
                                         <i class="fa fa-trash" aria-hidden="true"></i> Delete
@@ -239,14 +243,14 @@ const JobOpeningScreen = ({history, match}) => {
                     <p> </p>
                     {
                         userInfo && userInfo.isAdmin && (
-                            <Button 
-                                className='col-12' 
-                                type='button'
-                                variant='danger'
-                                onClick={deleteHandler}
-                            >
-                                <i class="fa fa-trash" aria-hidden="true"></i> Delete
-                            </Button>
+                                <Button 
+                                    className='col-12' 
+                                    type='button'
+                                    variant='danger'
+                                    onClick={deleteHandler}
+                                >
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                </Button>
                         )
                     }
                 </Col>

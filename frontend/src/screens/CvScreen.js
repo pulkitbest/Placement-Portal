@@ -26,7 +26,7 @@ const ProfileScreen = ({match, history}) => {
             history.push('/login')
         } else {
             if(!user || user._id !== userId){
-                dispatch(getUserDetails('profile'))
+                dispatch(getUserDetails(userId))
             }
         }
 
@@ -34,7 +34,6 @@ const ProfileScreen = ({match, history}) => {
 
     return (
         <>
-            {/* {loading && <Loader />} */}
             {error && <Message>{error}</Message>}
             <div className="viewer">
             {user.resume&&(

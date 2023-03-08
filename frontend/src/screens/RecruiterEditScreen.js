@@ -47,7 +47,6 @@ const RecruiterEditScreen = ({match, history}) => {
 
     return (
         <>
-            <Link to='/admin/recruiterlist' className='btn btn-light my-3'>Go Back</Link>
             <FormContainer>
                 <h1>Recruiter Details</h1>
                 {loadingVerify && <Loader/>}

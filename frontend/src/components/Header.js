@@ -44,11 +44,6 @@ const Header = () => {
                       <h6><i class="fa-solid fa-mug-saucer"></i> Recruiters</h6>
                     </Nav.Link>
                   </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Nav.Link as={Link} to='/admin/orderlist'>
-                      <h6><i class="fa fa-newspaper"></i> Applications</h6>
-                    </Nav.Link>
-                  </NavDropdown.Item>
                 </NavDropdown>
               )}
               {userInfo ? (

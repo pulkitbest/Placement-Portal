@@ -36,10 +36,12 @@ const RecruiterDashboardScreen = ({history}) => {
     }
 
     const applicantsHandler = (id) => {
-        
+        history.push(`/applicants/${id}`)
     }
     
-
+    const updateHandler = (id) => {
+        history.push(`/updateJobOpening/${id}`)
+    }
 
     return (
         <>
@@ -106,11 +108,9 @@ const RecruiterDashboardScreen = ({history}) => {
                                     <Button variant='info' className='btn-sm' onClick={() => applicantsHandler(jobOpening._id)}>
                                         <i class="fa-solid fa-newspaper"></i>
                                     </Button>
-                                    <Link to={`/updateJobOpening/${jobOpening._id}`}>
-                                        <Button variant='dark' className='btn-sm'>
-                                            <i className='fas fa-edit'></i>
-                                        </Button>
-                                    </Link>  
+                                    <Button variant='dark' className='btn-sm' onClick={() => updateHandler(jobOpening._id)}>
+                                        <i className='fas fa-edit'></i>
+                                    </Button>
                                     <Button variant='danger' className='btn-sm' onClick={() => deleteJobOpeningHandler(jobOpening._id)}>
                                         <i className='fas fa-trash'></i>
                                     </Button>

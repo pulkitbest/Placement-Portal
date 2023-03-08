@@ -16,7 +16,7 @@ const getJobOpenings = asyncHandler(async (req, res) => {
 //@route GET /api/jobOpenings/:id
 //@access Student
 const getJobOpeningById = asyncHandler(async (req, res) => {
-    const jobOpening = await JobOpening.findById(req.params.id)
+    const jobOpening = await JobOpening.findById(req.params.id).populate('recruiter', 'id name')
 
     if(jobOpening){
         res.json(jobOpening)
