@@ -53,7 +53,8 @@ import {
     applicationListMyReducer,
     applicationDetailsReducer,
     applicationCreateReducer,
-    applicantListReducer
+    applicantListReducer,
+    applicationUpdateReducer
 } from './reducers/applicationReducers'
 
 const reducer = combineReducers({
@@ -97,6 +98,7 @@ const reducer = combineReducers({
     applicationDetails: applicationDetailsReducer,
     applicationCreate: applicationCreateReducer,
     applicantList: applicantListReducer,
+    applicationUpdate: applicationUpdateReducer,
 
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,

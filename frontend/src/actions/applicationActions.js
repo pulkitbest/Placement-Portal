@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { APPLICANT_LIST_FAIL, APPLICANT_LIST_REQUEST, APPLICANT_LIST_SUCCESS, APPLICATION_CREATE_FAIL, APPLICATION_CREATE_REQUEST, APPLICATION_CREATE_SUCCESS, APPLICATION_DETAILS_FAIL, APPLICATION_DETAILS_REQUEST, APPLICATION_DETAILS_SUCCESS, APPLICATION_LIST_MY_FAIL, APPLICATION_LIST_MY_REQUEST, APPLICATION_LIST_MY_SUCCESS } from '../constants/applicationConstants'
+import { APPLICANT_LIST_FAIL, APPLICANT_LIST_REQUEST, APPLICANT_LIST_SUCCESS, APPLICATION_CREATE_FAIL, APPLICATION_CREATE_REQUEST, APPLICATION_CREATE_SUCCESS, APPLICATION_DETAILS_FAIL, APPLICATION_DETAILS_REQUEST, APPLICATION_DETAILS_SUCCESS, APPLICATION_LIST_MY_FAIL, APPLICATION_LIST_MY_REQUEST, APPLICATION_LIST_MY_SUCCESS, APPLICATION_UPDATE_FAIL, APPLICATION_UPDATE_REQUEST, APPLICATION_UPDATE_SUCCESS } from '../constants/applicationConstants'
 
 export const listMyApplications = () => async (dispatch, getState) => {
     try{
@@ -113,6 +113,36 @@ export const createApplication = (application) => async (dispatch, getState) => 
     } catch (error){
         dispatch({
             type: APPLICATION_CREATE_FAIL, 
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        })
+    }
+}
+
+export const updateApplication = (application) => async (dispatch, getState) => {
+    try{
+        dispatch({
+            type: APPLICATION_UPDATE_REQUEST
+        })
+
+        const {userLogin: {userInfo}} = getState()
+        const {recruiterLogin: {recruiterInfo}} = getState()
+
+        //have to use this whenever there is a use of headers in this case header authorization
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${recruiterInfo ? recruiterInfo.token : userInfo.token}`,
+            }
+        }
+        const {data} = await axios.put(`/api/applications/${application._id}`, application, config)
+        
+        dispatch({
+            type: APPLICATION_UPDATE_SUCCESS,
+            payload: data
+        })
+    } catch (error){ 
+        dispatch({
+            type: APPLICATION_UPDATE_FAIL, 
             payload: error.response && error.response.data.message ? error.response.data.message : error.message,
         })
     }

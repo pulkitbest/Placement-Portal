@@ -14,7 +14,11 @@ import {
     APPLICATION_LIST_MY_FAIL, 
     APPLICATION_LIST_MY_REQUEST, 
     APPLICATION_LIST_MY_RESET, 
-    APPLICATION_LIST_MY_SUCCESS 
+    APPLICATION_LIST_MY_SUCCESS, 
+    APPLICATION_UPDATE_FAIL, 
+    APPLICATION_UPDATE_REQUEST,
+    APPLICATION_UPDATE_RESET,
+    APPLICATION_UPDATE_SUCCESS
 } from "../constants/applicationConstants"
 
 export const applicationListMyReducer = (state = {applications: []}, action) => {
@@ -101,6 +105,21 @@ export const applicationCreateReducer = (state = {}, action) => {
             }
         case APPLICATION_CREATE_RESET:
             return {}
+        default:
+            return state
+    }
+}
+
+export const applicationUpdateReducer = (state = {application: {}}, action) => {
+    switch(action.type){
+        case APPLICATION_UPDATE_REQUEST:
+            return {loading: true}
+        case APPLICATION_UPDATE_SUCCESS:
+            return {loading: false, application: action.payload, success: true}
+        case APPLICATION_UPDATE_FAIL:
+            return {loading: false, error: action.payload}
+        case APPLICATION_UPDATE_RESET:
+            return {application: {}}
         default:
             return state
     }

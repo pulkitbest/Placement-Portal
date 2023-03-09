@@ -6,7 +6,8 @@ import {
     getApplicationById, 
     getApplications, 
     getJobOpeningApplications, 
-    getMyApplications
+    getMyApplications,
+    updateApplication
 } from '../controllers/applicationController.js'
 
 import {protect, recruiterProtect, admin, recruiterAndAdmin} from '../middleware/authMiddleware.js'
@@ -15,7 +16,7 @@ router.route('/').post(protect, createApplication).get(protect, admin, getApplic
 
 router.route('/myapplications').get(protect, getMyApplications)
 
-router.route('/:id').get(protect, recruiterProtect, getApplicationById)
+router.route('/:id').get(protect, recruiterProtect, getApplicationById).put(protect, recruiterProtect, recruiterAndAdmin, updateApplication)
 
 router.route('/jobOpening/:id').get(protect, recruiterProtect, recruiterAndAdmin, getJobOpeningApplications)
 

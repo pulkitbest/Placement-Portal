@@ -11,30 +11,29 @@ const applicationSchema = mongoose.Schema({
         required: true,
         ref: 'JobOpening'
     },
+    // 0 - Not taking place
+    // 1 - Not yet taken
+    // 2 - cleared
+    // 3 - rejected
     aptitudeTest: {
-        type: Boolean,
+        type: Number,
         required: true,
-        default: false,
     },
     onlineTechnicalTest: {
-        type: Boolean,
+        type: Number,
         required: true,
-        default: false,
     },
     groupDiscussion: {
-        type: Boolean,
+        type: Number,
         required: true,
-        default: false,
     },
     technicalInterviews: {
-        type: Boolean,
+        type: Number,
         required: true,
-        default: false,
     },
     hrInterviews: {
-        type: Boolean,
+        type: Number,
         required: true,
-        default: false,
     },
 
 }, {

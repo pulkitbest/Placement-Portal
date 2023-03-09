@@ -64,7 +64,12 @@ const JobOpeningScreen = ({history, match}) => {
 
     const registerHandler = () => {
         dispatch(createApplication({
-            jobOpening: match.params.id
+            jobOpening: match.params.id,
+            aptitudeTest: jobOpening.aptitudeTest ? 1 : 0,
+            onlineTechnicalTest: jobOpening.onlineTechnicalTest ? 1 : 0,
+            groupDiscussion: jobOpening.groupDiscussion ? 1 : 0,
+            technicalInterviews: jobOpening.technicalInterviews ? 1 : 0,
+            hrInterviews: jobOpening.hrInterviews ? 1 : 0,
         }))
     }
 

@@ -18,6 +18,11 @@ const createApplication = asyncHandler(async(req, res) => {
     const application = new Application({
         user,
         jobOpening,
+        aptitudeTest: req.body.aptitudeTest,
+        onlineTechnicalTest: req.body.onlineTechnicalTest,
+        groupDiscussion: req.body.groupDiscussion,
+        technicalInterviews: req.body.technicalInterviews,
+        hrInterviews: req.body.hrInterviews
     })
 
     const createdApplication = await application.save()
@@ -64,10 +69,30 @@ const getJobOpeningApplications = asyncHandler(async (req, res) => {
     res.json(applications)
 })
 
+//@desc Update Application
+//@route PUT /api/applications/:id
+//@access Recruiter & Admin
+const updateApplication = asyncHandler(async(req, res) => {
+    const application = await Application.findById(req.params.id)
+    if(application) {
+        application.aptitudeTest = req.body.aptitudeTest
+        application.onlineTechnicalTest = req.body.onlineTechnicalTest
+        application.groupDiscussion = req.body.groupDiscussion
+        application.technicalInterviews = req.body.technicalInterviews
+        application.hrInterviews = req.body.hrInterviews
+        const updatedApplication = await application.save()
+        res.json(updatedApplication)
+    } else {
+        res.status(404)
+        throw new Error('Application Not Found')
+    }
+})
+
 export{
     createApplication,
     getApplicationById,
     getApplications,
     getMyApplications,
-    getJobOpeningApplications
+    getJobOpeningApplications,
+    updateApplication,
 }
