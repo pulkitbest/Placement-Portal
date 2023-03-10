@@ -155,7 +155,7 @@ const UserUpdateScreen = ({location, history}) => {
                     <Form.Label>Mobile Number</Form.Label>
                     <Form.Control 
                         type='tel' 
-                        placeholder='Enter Mobile Number with Country Code' 
+                        placeholder='Enter Mobile Number' 
                         value={phone} 
                         onChange={(e) => setPhone(e.target.value)}>
                     </Form.Control>

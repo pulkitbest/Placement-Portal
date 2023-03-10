@@ -9,7 +9,7 @@ import { getUserProfile,
         updateUser,
         verifyUserAll,
         authUserWithOTP,
-        generateOTPForLogin } from '../controllers/userController.js'
+        generateOTPForLogin} from '../controllers/userController.js'
 import {protect, admin} from '../middleware/authMiddleware.js'
 
 router.route('/').post(registerUser).get(protect, admin, getUsers)

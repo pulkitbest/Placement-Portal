@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {Table, Button} from 'react-bootstrap'
+import {Table, Button, Row, Col} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -19,9 +19,9 @@ const UserListScreen = ({history}) => {
     const {success: successDelete} = userDelete
 
     useEffect(() => {
-        if(userInfo && userInfo.isAdmin)
+        if(userInfo && userInfo.isAdmin){
             dispatch(listUsers())
-        else{
+        } else {
             history.push('/login')
         }
     }, [dispatch, history, userInfo, successDelete])
@@ -31,10 +31,69 @@ const UserListScreen = ({history}) => {
         dispatch(deleteUser(id))
     }
 
+    const exportHandler = () => {
+        const rows = [
+            [
+                'User ID',
+                'Roll Number',
+                'Name',
+                'E-mail',
+                'College E-mail',
+                'Phone Number',
+                'Department',
+                'Programme',
+                'D.O.B.',
+                'C.G.P.A.',
+                'X Percentage',
+                'XII Percentage',
+                'Verified',
+                'Created At',
+                'Updated At'
+            ], 
+            ...users.map(user => [
+                user._id,
+                user.rollNumber,
+                user.name,
+                user.email,
+                user.collegeEmail,
+                user.phone,
+                user.department,
+                user.programme,
+                user.dateOfBirth,
+                user.cgpa,
+                user.tenthPercentage,
+                user.twelfthPercentage,
+                user.verified,
+                user.createdAt,
+                user.updatedAt
+            ])
+        ]
+
+        let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n")
+
+        var encodedUri = encodeURI(csvContent)
+        var link = document.createElement("a")
+        link.setAttribute("href", encodedUri)
+        link.setAttribute("download", "StudentList.csv")
+        document.body.appendChild(link)
+
+        link.click()
+    }
+
     return (
         <>
-            <h1>Students</h1>
+            <Row>
+            <Col className='d-flex align-items-center'>
+                    <h1>Students</h1>
+                </Col>
+                <Col className='d-flex align-items-center text-end justify-content-end'>
+                    {users && <Button onClick={exportHandler}>
+                        DOWNLOAD <i class="fa fa-download"></i>
+                    </Button>}
+                </Col>
+            </Row>
             {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : (
+                <>
                 <Table striped bordered hover responsive className='table-sm'>
                     <thead>
                         <tr>
@@ -72,6 +131,7 @@ const UserListScreen = ({history}) => {
                         ))}
                     </tbody>
                 </Table>
+                </>
             )}
         </>
     )

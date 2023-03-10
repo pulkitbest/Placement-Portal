@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+import excelJS from 'exceljs'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
 import generateOTP from '../utils/otp.js'
@@ -393,5 +394,5 @@ export {
     getUsers, 
     deleteUser, 
     getUserById, 
-    updateUser
+    updateUser,
 }
