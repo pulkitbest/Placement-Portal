@@ -73,12 +73,13 @@ const UserListScreen = ({history}) => {
 
         var encodedUri = encodeURI(csvContent)
         var link = document.createElement("a")
-        link.setAttribute("href", encodedUri)
+        link.setAttribute("href", encodedUri) 
         link.setAttribute("download", "StudentList.csv")
         document.body.appendChild(link)
 
         link.click()
     }
+
 
     return (
         <>
@@ -97,13 +98,13 @@ const UserListScreen = ({history}) => {
                 <Table striped bordered hover responsive className='table-sm'>
                     <thead>
                         <tr>
-                            <th>ROLL NO.</th>
-                            <th>NAME</th>
-                            <th>EMAIL</th>
-                            <th>COLLEGE EMAIL</th>
-                            <th>CV</th>
-                            <th>ADMIN</th>
-                            <th>EDIT/DELETE</th>
+                            <th class="th-sm">ROLL NO.</th>
+                            <th class="th-sm">NAME</th>
+                            <th class="th-sm">EMAIL</th>
+                            <th class="th-sm">COLLEGE EMAIL</th>
+                            <th class="th-sm">CV</th>
+                            <th class="th-sm">ADMIN</th>
+                            <th class="th-sm">EDIT/DELETE</th>
                         </tr>
                     </thead>
                     <tbody>

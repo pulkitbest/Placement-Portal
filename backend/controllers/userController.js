@@ -1,5 +1,4 @@
 import asyncHandler from 'express-async-handler'
-import excelJS from 'exceljs'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
 import generateOTP from '../utils/otp.js'
@@ -127,10 +126,21 @@ const registerUser = asyncHandler(async (req, res) => {
         dateOfBirth
     } = req.body
     
-    const userExists = await User.findOne({email})
+    const userExists = await User.findOne({
+        $or: [
+            {email: email},
+            {collegeEmail: collegeEmail},
+            {rollNumber: rollNumber},
+            {phone: phone}
+        ]
+    })
 
-    if(userExists){
+    if(userExists && userExists.verified){
         res.status(400)
+        if(email === userExists.email) throw new Error('Email already in use')
+        if(collegeEmail === userExists.collegeEmail) throw new Error('College Email already in use')
+        if(rollNumber === userExists.rollNumber) throw new Error('Roll Number already in use')
+        if(phone === userExists.phone) throw new Error('Phone Number already in use')
         throw new Error('User already exists')
     }
 
@@ -138,54 +148,102 @@ const registerUser = asyncHandler(async (req, res) => {
     const generatedOTPForCollegeEmail = generateOTP()
     const generatedOTPForPhone = generateOTP()
 
-    const user = await User.create({
-        name, 
-        email, 
-        collegeEmail, 
-        rollNumber, 
-        phone,
-        resume, 
-        cgpa, 
-        tenthPercentage, 
-        twelfthPercentage, 
-        department, 
-        programme, 
-        dateOfBirth,
-        otpForEmail: generatedOTPForEmail,
-        otpForCollegeEmail: generatedOTPForCollegeEmail,
-        otpForPhone: generatedOTPForPhone,
-    })
+    if(userExists){
+        userExists.name = name
+        userExists.email = email
+        userExists.collegeEmail = collegeEmail
+        userExists.rollNumber = rollNumber
+        userExists.phone = phone
+        userExists.resume = resume
+        userExists.cgpa = cgpa 
+        userExists.tenthPercentage = tenthPercentage
+        userExists.twelfthPercentage = twelfthPercentage
+        userExists.department = department
+        userExists.programme = programme
+        userExists.dateOfBirth = dateOfBirth
+        userExists.otpForEmail = generatedOTPForEmail
+        userExists.otpForCollegeEmail = generatedOTPForCollegeEmail
+        userExists.otpForPhone = generatedOTPForPhone
 
-    if(!user){
-        res.status(400)
-        throw new Error('User not found')
+        await userExists.save()
+
+        try{
+            // await sendMail({
+            //     to: email,
+            //     OTP: generatedOTP,
+            // })
+            res.status(201).json({
+                _id: userExists._id,
+                name: userExists.name,
+                email: userExists.email,
+                collegeEmail: userExists.collegeEmail,
+                rollNumber: userExists.rollNumber,
+                phone: userExists.phone,
+                resume: userExists.resume,
+                cgpa: userExists.cgpa,
+                tenthPercentage: userExists.tenthPercentage,
+                twelfthPercentage: userExists.twelfthPercentage,
+                department: userExists.department,
+                programme: userExists.programme,
+                dateOfBirth: userExists.dateOfBirth,
+                isAdmin: userExists.isAdmin,
+                verified: userExists.verified,
+            })
+        } catch(error){
+            res.status(400)
+            throw new Error('Unable to Sign Up')
+        }
     }
-
-    try{
-        // await sendMail({
-        //     to: email,
-        //     OTP: generatedOTP,
-        // })
-        res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            collegeEmail: user.collegeEmail,
-            rollNumber: user.rollNumber,
-            phone: user.phone,
-            resume: user.resume,
-            cgpa: user.cgpa,
-            tenthPercentage: user.tenthPercentage,
-            twelfthPercentage: user.twelfthPercentage,
-            department: user.department,
-            programme: user.programme,
-            dateOfBirth: user.dateOfBirth,
-            isAdmin: user.isAdmin,
-            verified: user.verified,
+    else{
+        const user = await User.create({
+            name, 
+            email, 
+            collegeEmail, 
+            rollNumber, 
+            phone,
+            resume, 
+            cgpa, 
+            tenthPercentage, 
+            twelfthPercentage, 
+            department, 
+            programme, 
+            dateOfBirth,
+            otpForEmail: generatedOTPForEmail,
+            otpForCollegeEmail: generatedOTPForCollegeEmail,
+            otpForPhone: generatedOTPForPhone,
         })
-    } catch(error){
-        res.status(400)
-        throw new Error('Unable to Sign Up')
+    
+        if(!user){
+            res.status(400)
+            throw new Error('User not found')
+        }
+    
+        try{
+            // await sendMail({
+            //     to: email,
+            //     OTP: generatedOTP,
+            // })
+            res.status(201).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                collegeEmail: user.collegeEmail,
+                rollNumber: user.rollNumber,
+                phone: user.phone,
+                resume: user.resume,
+                cgpa: user.cgpa,
+                tenthPercentage: user.tenthPercentage,
+                twelfthPercentage: user.twelfthPercentage,
+                department: user.department,
+                programme: user.programme,
+                dateOfBirth: user.dateOfBirth,
+                isAdmin: user.isAdmin,
+                verified: user.verified,
+            })
+        } catch(error){
+            res.status(400)
+            throw new Error('Unable to Sign Up')
+        }
     }
 })
 
