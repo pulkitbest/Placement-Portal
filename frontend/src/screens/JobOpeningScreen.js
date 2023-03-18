@@ -335,13 +335,16 @@ const JobOpeningScreen = ({history, match}) => {
                             <h2>Process</h2>
                         </ListGroup.Item>
                         <ListGroup.Item variant='dark'>
-                            <div className="ms-2 me-auto">
-                                <div className="fw-bold">Eligible Students</div>
-                                {
-                                    jobOpening.eligibleStudents && jobOpening.eligibleStudents.map((student) => (
-                                        <div>- {student}</div>
-                                    ))
-                                }
+                            <div className="ms-2 me-auto">  
+                            <div className="fw-bold">Eligible Students</div>
+                                {jobOpening.bTechIT && <div>- B.Tech. - 4 Year IT</div>}
+                                {jobOpening.bTechITBI && <div>- B.Tech. - 4 Year IT-Business Informatics</div>}
+                                {jobOpening.bTechECE && <div>- B.Tech. - 4 Year ECE</div>}
+                                {jobOpening.mTechIT && <div>- M.Tech. - 2 Year IT</div>}
+                                {jobOpening.mTechECE && <div>- M.Tech. - 2 Year ECE</div>}
+                                {jobOpening.mTechDSA && <div>- M.Tech. - 2 Year Data Science and Analytics</div>}
+                                {jobOpening.mTechBI && <div>- M.Tech. - 2 Year Bio-Informatics</div>}
+                                {jobOpening.mba && <div>- MBA - 2 Year MBA</div>}
                                 <div>- Minimum {jobOpening.tenthPercentage}% in X</div>
                                 <div>- Minimum {jobOpening.twelfthPercentage}% in XII</div>
                                 <div>- Minimum {jobOpening.cgpa} cgpa in UG</div>

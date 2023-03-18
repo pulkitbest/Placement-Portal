@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {Form, Button, Row, Col} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
@@ -22,7 +22,14 @@ const JobOpeningCreateScreen = ({match, history}) => {
     const [jobDescription, setJobDescription] = useState('')
     const [minIntakeOfStudents, setMinIntakeOfStudents] = useState(0)
     const [maxIntakeOfStudents, setMaxIntakeOfStudents] = useState(0)
-    const [eligibleStudents, setEligibleStudents] = useState([])
+    const [bTechIT, setBTechIT] = useState(false)
+    const [bTechITBI, setBTechITBI] = useState(false)
+    const [bTechECE, setBTechECE] = useState(false)
+    const [mTechIT, setMTechIT] = useState(false)
+    const [mTechECE, setMTechECE] = useState(false)
+    const [mTechDSA, setMTechDSA] = useState(false)
+    const [mTechBI, setMTechBI] = useState(false)
+    const [mba, setMba] = useState(false)
     const [bTechCTC, setBTechCTC] = useState('')
     const [bTechBasePay, setBTechBasePay] = useState('')
     const [bTechStocks, setBTechStocks] = useState('')
@@ -57,14 +64,6 @@ const JobOpeningCreateScreen = ({match, history}) => {
     const jobOpeningUpdate = useSelector(state => state.jobOpeningUpdate)
     const {loading:loadingUpdate, error:errorUpdate, success:successUpdate} = jobOpeningUpdate
 
-    const handleCheckBoxChange = (event) => {
-        let newArray = [...eligibleStudents, event.target.value]
-        if(eligibleStudents.includes(event.target.value)){
-            newArray = newArray.filter(student => student !== event.target.value)
-        }
-        setEligibleStudents(newArray)
-    }
-
     useEffect(() => {
         if(!recruiterInfo){
             history.push('/login')
@@ -85,7 +84,14 @@ const JobOpeningCreateScreen = ({match, history}) => {
             setJobDescription(jobOpening.jobDescription)
             setMinIntakeOfStudents(jobOpening.minIntakeOfStudents)
             setMaxIntakeOfStudents(jobOpening.maxIntakeOfStudents)
-            setEligibleStudents(jobOpening.eligibleStudents)
+            setBTechIT(jobOpening.bTechIT)
+            setBTechITBI(jobOpening.bTechITBI)
+            setBTechECE(jobOpening.bTechECE)
+            setMTechIT(jobOpening.mTechIT)
+            setMTechECE(jobOpening.mTechECE)
+            setMTechDSA(jobOpening.mTechDSA)
+            setMTechBI(jobOpening.mTechBI)
+            setMba(jobOpening.mba)
             setBTechCTC(jobOpening.bTechCTC)
             setBTechBasePay(jobOpening.bTechBasePay)
             setBTechStocks(jobOpening.bTechStocks)
@@ -146,7 +152,14 @@ const JobOpeningCreateScreen = ({match, history}) => {
             jobDescription,
             minIntakeOfStudents,
             maxIntakeOfStudents,
-            eligibleStudents,
+            bTechIT,
+            bTechITBI,
+            bTechECE,
+            mTechIT,
+            mTechECE,
+            mTechDSA,
+            mTechBI,
+            mba,
             bTechCTC,
             bTechBasePay,
             bTechStocks,
@@ -300,27 +313,81 @@ const JobOpeningCreateScreen = ({match, history}) => {
                         </Form.Group> 
                         <h3> </h3>
 
-                        <Form.Group controlId='eligibleStudents'>
-                            <Form.Label><h4>Eligible Students</h4></Form.Label>
-                            {[
-                                "B.Tech. - 4 Year IT", 
-                                "B.Tech. - 4 Year IT-Business Informatics", 
-                                "B.Tech. - 4 Year ECE",
-                                "M.Tech. - 2 Year IT",
-                                "M.Tech. - 2 Year ECE",
-                                "M.Tech. - 2 Year Data Science and Analytics",
-                                "M.Tech. - 2 Year Bio-Informatics",
-                                "MBA - 2 Year MBA"
-                            ].map(student => (
-                                <Form.Check 
-                                    type='checkbox' 
-                                    label={student}
-                                    checked={eligibleStudents.includes(student)}
-                                    value={student}
-                                    onChange={handleCheckBoxChange}
-                                />
-                            ))}
+                        <h4>Eligible Students</h4>
+                        <h4> </h4>
+                        <Form.Group controlId='bTechIT'>
+                            <Form.Check 
+                                type='checkbox' 
+                                value={bTechIT} 
+                                checked={bTechIT}
+                                label='B.Tech. - 4 Year IT'
+                                onChange={(e) => setBTechIT(e.target.checked)}>
+                            </Form.Check>
                         </Form.Group>
+                        <Form.Group controlId='bTechITBI'>
+                            <Form.Check 
+                                type='checkbox' 
+                                value={bTechITBI} 
+                                checked={bTechITBI}
+                                label='B.Tech. - 4 Year IT-Business Informatics'
+                                onChange={(e) => setBTechITBI(e.target.checked)}>
+                            </Form.Check>
+                        </Form.Group>
+                        <Form.Group controlId='bTechECE'>
+                            <Form.Check 
+                                type='checkbox' 
+                                value={bTechECE} 
+                                checked={bTechECE}
+                                label='B.Tech. - 4 Year ECE'
+                                onChange={(e) => setBTechECE(e.target.checked)}>
+                            </Form.Check>
+                        </Form.Group>
+                        <Form.Group controlId='mTechIT'>
+                            <Form.Check 
+                                type='checkbox' 
+                                value={mTechIT} 
+                                checked={mTechIT}
+                                label='M.Tech. - 2 Year IT'
+                                onChange={(e) => setMTechIT(e.target.checked)}>
+                            </Form.Check>
+                        </Form.Group>
+                        <Form.Group controlId='mTechECE'>
+                            <Form.Check 
+                                type='checkbox' 
+                                value={mTechECE} 
+                                checked={mTechECE}
+                                label='M.Tech. - 2 Year ECE'
+                                onChange={(e) => setMTechECE(e.target.checked)}>
+                            </Form.Check>
+                        </Form.Group>
+                        <Form.Group controlId='mTechDSA'>
+                            <Form.Check 
+                                type='checkbox' 
+                                value={mTechDSA} 
+                                checked={mTechDSA}
+                                label='M.Tech. - 2 Year Data Science and Analytics'
+                                onChange={(e) => setMTechDSA(e.target.checked)}>
+                            </Form.Check>
+                        </Form.Group>
+                        <Form.Group controlId='mTechBI'>
+                            <Form.Check 
+                                type='checkbox' 
+                                value={mTechBI} 
+                                checked={mTechBI}
+                                label='M.Tech. - 2 Year Bio-Informatics'
+                                onChange={(e) => setMTechBI(e.target.checked)}>
+                            </Form.Check>
+                        </Form.Group>
+                        <Form.Group controlId='mba'>
+                            <Form.Check 
+                                type='checkbox' 
+                                value={mba} 
+                                checked={mba}
+                                label='MBA - 2 Year MBA'
+                                onChange={(e) => setMba(e.target.checked)}>
+                            </Form.Check>
+                        </Form.Group>
+
                         <h2> </h2>
                         <Row>
                             <h4>Eligibility Criteria</h4>

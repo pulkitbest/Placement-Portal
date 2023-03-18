@@ -56,7 +56,46 @@ const jobOpeningSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    eligibleStudents: [String],
+    bTechIT: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    bTechITBI: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    bTechECE: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    mTechIT: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    mTechECE: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    mTechDSA: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    mTechBI: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    mba: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
     bTechCTC: {
         type: String,
         required: true,

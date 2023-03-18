@@ -63,7 +63,14 @@ const createJobOpening = asyncHandler(async (req, res) => {
         jobDescription,
         minIntakeOfStudents,
         maxIntakeOfStudents,
-        eligibleStudents,
+        bTechIT,
+        bTechITBI,
+        bTechECE,
+        mTechIT,
+        mTechECE,
+        mTechDSA,
+        mTechBI,
+        mba,
         bTechCTC,
         bTechBasePay,
         bTechStocks,
@@ -100,7 +107,14 @@ const createJobOpening = asyncHandler(async (req, res) => {
         jobDescription,
         minIntakeOfStudents,
         maxIntakeOfStudents,
-        eligibleStudents,
+        bTechIT,
+        bTechITBI,
+        bTechECE,
+        mTechIT,
+        mTechECE,
+        mTechDSA,
+        mTechBI,
+        mba,
         bTechCTC,
         bTechBasePay,
         bTechStocks,
@@ -146,7 +160,14 @@ const updateJobOpening = asyncHandler(async (req, res) => {
         jobOpening.jobDescription = req.body.jobDescription || jobOpening.jobDescription
         jobOpening.minIntakeOfStudents = req.body.minIntakeOfStudents || jobOpening.minIntakeOfStudents
         jobOpening.maxIntakeOfStudents = req.body.maxIntakeOfStudents || jobOpening.maxIntakeOfStudents
-        jobOpening.eligibleStudents = req.body.eligibleStudents || jobOpening.eligibleStudents
+        jobOpening.bTechIT = req.body.bTechIT || jobOpening.bTechIT
+        jobOpening.bTechITBI = req.body.bTechITBI || jobOpening.bTechITBI
+        jobOpening.bTechECE = req.body.bTechECE || jobOpening.bTechECE
+        jobOpening.mTechIT = req.body.mTechIT || jobOpening.mTechIT
+        jobOpening.mTechECE = req.body.mTechECE || jobOpening.mTechECE
+        jobOpening.mTechDSA = req.body.mTechDSA || jobOpening.mTechDSA
+        jobOpening.mTechBI = req.body.mTechBI || jobOpening.mTechBI
+        jobOpening.mba = req.body.mba || jobOpening.mba
         jobOpening.bTechCTC = req.body.bTechCTC || jobOpening.bTechCTC
         jobOpening.bTechBasePay = req.body.bTechBasePay || jobOpening.bTechBasePay
         jobOpening.bTechStocks = req.body.bTechStocks || jobOpening.bTechStocks
