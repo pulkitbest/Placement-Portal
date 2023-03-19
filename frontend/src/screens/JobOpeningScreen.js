@@ -103,6 +103,22 @@ const JobOpeningScreen = ({history, match}) => {
         history.push(`/application/${alreadyRegistered._id}`)
     }
 
+    const isEligible = userInfo 
+                        && jobOpening
+                        && (userInfo.tenthPercentage >= jobOpening.tenthPercentage) 
+                        && (userInfo.twelfthPercentage >= jobOpening.twelfthPercentage)
+                        && (userInfo.cgpa >= jobOpening.cgpa)
+                        && (
+                            ((userInfo.programme + ' ' + userInfo.department) === 'B.Tech. - 4 Year IT' && jobOpening.bTechIT)
+                            || ((userInfo.programme + ' ' + userInfo.department) === 'B.Tech. - 4 Year IT-Business Informatics' && jobOpening.bTechITBI)
+                            || ((userInfo.programme + ' ' + userInfo.department) === 'B.Tech. - 4 Year ECE' && jobOpening.bTechECE)
+                            || ((userInfo.programme + ' ' + userInfo.department) === 'M.Tech. - 2 Year IT' && jobOpening.mTechIT)
+                            || ((userInfo.programme + ' ' + userInfo.department) === 'M.Tech. - 2 Year ECE' && jobOpening.mTechECE)
+                            || ((userInfo.programme + ' ' + userInfo.department) === 'M.Tech. - 2 Year Data Science and Analytics' && jobOpening.mTechDSA)
+                            || ((userInfo.programme + ' ' + userInfo.department) === 'M.Tech. - 2 Year Bio-Informatics' && jobOpening.mTechBI)
+                            || ((userInfo.programme + ' ' + userInfo.department) === 'MBA - 2 Year MBA' && jobOpening.mba)
+                        )
+
     return (
     <>
         {
@@ -209,6 +225,7 @@ const JobOpeningScreen = ({history, match}) => {
                                     className='col-12' 
                                     type='button'
                                     variant='success'
+                                    disabled={!isEligible}
                                 >
                                     Register
                                 </Button>

@@ -26,11 +26,13 @@ const UserDashboardScreen = ({history, match}) => {
 
     useEffect(() => {
         if (!userInfo) {
-          history.push("/login")
+            history.push("/login")
         } else {
-          dispatch(listJobOpenings(keyword)) //this fills our state
+            dispatch(listJobOpenings(keyword)) //this fills our state
         }
-      }, [dispatch, keyword, userInfo, history])
+    }, [dispatch, keyword, userInfo, history])
+
+    
 
     return (
         <>
