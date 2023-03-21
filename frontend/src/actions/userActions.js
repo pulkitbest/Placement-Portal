@@ -147,6 +147,7 @@ export const register = (
     twelfthPercentage, 
     department, 
     programme, 
+    lookingFor,
     dateOfBirth) => async (dispatch) => {
     try{
         dispatch({
@@ -172,6 +173,7 @@ export const register = (
             twelfthPercentage, 
             department, 
             programme, 
+            lookingFor,
             dateOfBirth
         }, config)
     

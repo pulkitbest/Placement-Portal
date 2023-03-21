@@ -32,7 +32,12 @@ const UserDashboardScreen = ({history, match}) => {
         }
     }, [dispatch, keyword, userInfo, history])
 
-    
+    if(userInfo && !userInfo.isAdmin){
+        if(userInfo.lookingFor === 'Summer Internship')
+            sortedJobOpenings = sortedJobOpenings.filter((jobOpening) => (jobOpening.typeOfJobOpening === 'Summer Internship'))
+        else
+            sortedJobOpenings = sortedJobOpenings.filter((jobOpening) => (jobOpening.typeOfJobOpening !== 'Summer Internship'))
+    }
 
     return (
         <>
@@ -44,11 +49,13 @@ const UserDashboardScreen = ({history, match}) => {
                 <Message>{error}</Message>
             ) : (
                 <Row>
-                {sortedJobOpenings.filter((jobOpening) => (jobOpening.verifiedByAdmin === true || userInfo.isAdmin === true)).map((jobOpening) => (
-                    <Col key={jobOpening._id} sm={12} md={6} lg={4}>
-                    <JobOpening jobOpening={jobOpening} />
-                    </Col>
-                ))}
+                {
+                    sortedJobOpenings.filter((jobOpening) => (jobOpening.verifiedByAdmin === true || userInfo.isAdmin === true)).map((jobOpening) => (
+                        <Col key={jobOpening._id} sm={12} md={6} lg={4}>
+                        <JobOpening jobOpening={jobOpening} />
+                        </Col>
+                    ))
+                }
                 </Row>
             )}
         </>

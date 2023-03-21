@@ -58,6 +58,7 @@ const authUserWithOTP = asyncHandler(async(req, res) => {
             twelfthPercentage: user.twelfthPercentage,
             department: user.department,
             programme: user.programme,
+            lookingFor: user.lookingFor,
             dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
             token: generateToken(user._id),
@@ -98,6 +99,7 @@ const generateOTPForLogin = asyncHandler(async (req, res) => {
             twelfthPercentage: user.twelfthPercentage,
             department: user.department,
             programme: user.programme,
+            lookingFor: user.lookingFor,
             dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
         })
@@ -123,6 +125,7 @@ const registerUser = asyncHandler(async (req, res) => {
         twelfthPercentage, 
         department, 
         programme, 
+        lookingFor,
         dateOfBirth
     } = req.body
     
@@ -160,6 +163,7 @@ const registerUser = asyncHandler(async (req, res) => {
         userExists.twelfthPercentage = twelfthPercentage
         userExists.department = department
         userExists.programme = programme
+        userExists.lookingFor = lookingFor
         userExists.dateOfBirth = dateOfBirth
         userExists.otpForEmail = generatedOTPForEmail
         userExists.otpForCollegeEmail = generatedOTPForCollegeEmail
@@ -185,6 +189,7 @@ const registerUser = asyncHandler(async (req, res) => {
                 twelfthPercentage: userExists.twelfthPercentage,
                 department: userExists.department,
                 programme: userExists.programme,
+                lookingFor: userExists.lookingFor,
                 dateOfBirth: userExists.dateOfBirth,
                 isAdmin: userExists.isAdmin,
                 verified: userExists.verified,
@@ -207,6 +212,7 @@ const registerUser = asyncHandler(async (req, res) => {
             twelfthPercentage, 
             department, 
             programme, 
+            lookingFor,
             dateOfBirth,
             otpForEmail: generatedOTPForEmail,
             otpForCollegeEmail: generatedOTPForCollegeEmail,
@@ -236,6 +242,7 @@ const registerUser = asyncHandler(async (req, res) => {
                 twelfthPercentage: user.twelfthPercentage,
                 department: user.department,
                 programme: user.programme,
+                lookingFor: user.lookingFor,
                 dateOfBirth: user.dateOfBirth,
                 isAdmin: user.isAdmin,
                 verified: user.verified,
@@ -276,6 +283,7 @@ const verifyUserAll = asyncHandler(async(req, res) => {
                     twelfthPercentage: user.twelfthPercentage,
                     department: user.department,
                     programme: user.programme,
+                    lookingFor: user.lookingFor,
                     dateOfBirth: user.dateOfBirth,
                     isAdmin: user.isAdmin,
                     verified: user.verified,
@@ -312,6 +320,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
             twelfthPercentage: user.twelfthPercentage,
             department: user.department,
             programme: user.programme,
+            lookingFor: user.lookingFor,
             dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
             verified: user.verified,
@@ -341,6 +350,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         user.twelfthPercentage = req.body.twelfthPercentage || user.twelfthPercentage
         user.department = req.body.department || user.department
         user.programme = req.body.programme || user.programme
+        user.lookingFor = req.body.lookingFor || user.lookingFor
         user.dateOfBirth = req.body.dateOfBirth || user.dateOfBirth
 
         await user.save()
@@ -358,6 +368,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             twelfthPercentage: user.twelfthPercentage,
             department: user.department,
             programme: user.programme,
+            lookingFor: user.lookingFor,
             dateOfBirth: user.dateOfBirth,
             isAdmin: user.isAdmin,
             verified: user.verified,
@@ -430,6 +441,7 @@ const updateUser = asyncHandler(async (req, res) => {
             twelfthPercentage: updatedUser.twelfthPercentage,
             department: updatedUser.department,
             programme: updatedUser.programme,
+            lookingFor: updatedUser.lookingFor,
             dateOfBirth: updatedUser.dateOfBirth,
             isAdmin: updatedUser.isAdmin,
             verified: user.verified,

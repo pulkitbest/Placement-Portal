@@ -55,6 +55,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    lookingFor: {
+        type: String,
+        required: true,
+    },
     dateOfBirth: {
         type: String,
         required: true

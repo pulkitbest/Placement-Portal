@@ -20,6 +20,7 @@ const UserRegisterScreen = ({location, history}) => {
     const [twelfthPercentage, setTwelfthPercentage] = useState()
     const [department, setDepartment] = useState('')
     const [programme, setProgramme] = useState('')
+    const [lookingFor, setLookingFor] = useState('')
     const [dateOfBirth, setDateOfBirth] = useState('')
     const [message, setMessage] = useState(null)
     const [uploading, setUploading] = useState(false)
@@ -59,6 +60,7 @@ const UserRegisterScreen = ({location, history}) => {
             twelfthPercentage, 
             department, 
             programme, 
+            lookingFor,
             dateOfBirth
         ))
     }
@@ -188,6 +190,20 @@ const UserRegisterScreen = ({location, history}) => {
                             <option key={'Data Science and Analytics'} value={'Data Science and Analytics'}>{'Data Science and Analytics'}</option>
                             <option key={'Bio-Informatics'} value={'Bio-Informatics'}>{'Bio-Informatics'}</option>
                             <option key={'MBA'} value={'MBA'}>{'MBA'}</option>
+                    </Form.Control>
+                </Form.Group>
+                <h4> </h4>
+                <Form.Group controlId='lookingFor'>
+                    <Form.Label>Looking For</Form.Label>
+                    <Form.Control 
+                        as='select'
+                        className='form-select'
+                        value={lookingFor}
+                        required 
+                        onChange={(e) => setLookingFor(e.target.value)}>
+                            <option key={'Select your preference'} value={'Select your preference'}>{'Select your preference'}</option>
+                            <option key={'Summer Internship'} value={'Summer Internship'}>{'Summer Internship'}</option>
+                            <option key={'Full Time and 6-month Internship'} value={'Full Time and 6-month Internship'}>{'Full Time and 6-month Internship'}</option>
                     </Form.Control>
                 </Form.Group>
                 <h4> </h4>
