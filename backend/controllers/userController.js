@@ -44,7 +44,7 @@ const authUserWithOTP = asyncHandler(async(req, res) => {
     
     const user = await User.findOne({email})
 
-    if(user && (otp == user.otpForPhone)){
+    if(user && (otp == user.otpForEmail)){
         res.json({
             _id: user._id,
             name: user.name,
@@ -84,8 +84,12 @@ const generateOTPForLogin = asyncHandler(async (req, res) => {
         
     try {
         const generatedOTP = generateOTP()
-        user.otpForPhone = generatedOTP
+        user.otpForEmail = generatedOTP
         await user.save()
+        await sendMail({
+            to: email,
+            OTP: generatedOTP,
+        })
         res.status(200).json({
             _id: user._id,
             name: user.name,
@@ -172,10 +176,14 @@ const registerUser = asyncHandler(async (req, res) => {
         await userExists.save()
 
         try{
-            // await sendMail({
-            //     to: email,
-            //     OTP: generatedOTP,
-            // })
+            await sendMail({
+                to: email,
+                OTP: generatedOTPForEmail,
+            })
+            await sendMail({
+                to: collegeEmail,
+                OTP: generatedOTPForCollegeEmail,
+            })
             res.status(201).json({
                 _id: userExists._id,
                 name: userExists.name,

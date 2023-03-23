@@ -74,7 +74,7 @@ const LoginUserScreen = ({location, history}) => {
             <>
             <Form onSubmit={loginHandler}>
                 <Form.Group controlId='otp'>
-                    <Form.Label>OTP sent to your Phone</Form.Label>
+                    <Form.Label>OTP sent to your Email</Form.Label>
                     <Form.Control 
                         type='password' 
                         placeholder='Enter OTP' 

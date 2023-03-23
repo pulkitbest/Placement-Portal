@@ -1,33 +1,24 @@
-import nodemailer from 'nodemailer'
 import asyncHandler from 'express-async-handler'
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.MAIL_EMAIL,
-        pass: process.env.MAIL_PASSWORD,
-    }
-})
+import emailjs from '@emailjs/nodejs' 
 
 const sendMail = asyncHandler(async (params) => {
     try {
-        let info = await transporter.sendMail({
-          from: process.env.MAIL_EMAIL,
-          to: params.to, 
-          subject: 'Hello ✔',
-          html: `
-          <div
-            class="container"
-            style="max-width: 90%; margin: auto; padding-top: 20px"
-          >
-            <h2>Welcome to the club.</h2>
-            <h4>You are officially In ✔</h4>
-            <p style="margin-bottom: 30px;">Pleas enter the sign up OTP to get started</p>
-            <h1 style="font-size: 40px; letter-spacing: 2px; text-align:center;">${params.OTP}</h1>
-       </div>
-        `,
-        })
-        return info
+        var templateParams = {
+            email: params.to,
+            OTP: params.OTP
+        }
+
+        emailjs
+            .send(process.env.EMAIL_SERVICE_ID, process.env.EMAIL_TEMPLATE_ID, templateParams, {
+                publicKey: process.env.EMAIL_PUBLIC_KEY,
+                privateKey: process.env.EMAIL_PRIVATE_KEY
+            })
+            .then((res) => {
+                console.log(res)  
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     } catch (error) {
         console.log(error)
         return false
