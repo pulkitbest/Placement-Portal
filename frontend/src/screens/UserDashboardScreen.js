@@ -50,7 +50,7 @@ const UserDashboardScreen = ({history, match}) => {
             ) : (
                 <Row>
                 {
-                    sortedJobOpenings.filter((jobOpening) => (jobOpening.verifiedByAdmin === true || userInfo.isAdmin === true)).map((jobOpening) => (
+                    sortedJobOpenings.filter((jobOpening) => (jobOpening.verifiedByAdmin === true || (userInfo && userInfo.isAdmin === true))).map((jobOpening) => (
                         <Col key={jobOpening._id} sm={12} md={6} lg={4}>
                         <JobOpening jobOpening={jobOpening} />
                         </Col>
