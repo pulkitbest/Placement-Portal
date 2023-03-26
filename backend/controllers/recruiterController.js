@@ -12,7 +12,7 @@ const authRecruiterWithOTP = asyncHandler(async(req, res) => {
     
     const recruiter = await Recruiter.findOne({email})
 
-    if(recruiter && (otp == recruiter.otpForMobileNumber)){
+    if(recruiter && (otp == recruiter.otpForEmail)){
         res.json({
             _id: recruiter._id,
             name: recruiter.name,
@@ -47,8 +47,12 @@ const generateOTPForLogin = asyncHandler(async (req, res) => {
         
     try {
         const generatedOTP = generateOTP()
-        recruiter.otpForMobileNumber = generatedOTP
+        recruiter.otpForEmail = generatedOTP
         await recruiter.save()
+        await sendMail({
+            to: email,
+            OTP: generatedOTP,
+        })
         res.status(200).json({
             _id: recruiter._id,
             name: recruiter.name,
@@ -110,10 +114,10 @@ const registerRecruiter = asyncHandler(async (req, res) => {
     }
 
     try{
-        // await sendMail({
-        //     to: email,
-        //     OTP: generatedOTP,
-        // })
+        await sendMail({
+            to: email,
+            OTP: generatedOTPForEmail,
+        })
         res.status(201).json({
             _id: recruiter._id,
             name: recruiter.name,

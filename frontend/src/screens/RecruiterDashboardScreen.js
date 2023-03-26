@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+import { Table, Button, Row, Col, ButtonGroup } from 'react-bootstrap'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listMyJobOpenings, deleteJobOpening } from '../actions/jobOpeningActions'
@@ -105,15 +105,17 @@ const RecruiterDashboardScreen = ({history}) => {
                                 )}    
                                 </td>     
                                 <td>
-                                    <Button variant='info' className='btn-sm' onClick={() => applicantsHandler(jobOpening._id)}>
-                                        <i class="fa-solid fa-newspaper"></i>
-                                    </Button>
-                                    <Button variant='dark' className='btn-sm' onClick={() => updateHandler(jobOpening._id)}>
-                                        <i className='fas fa-edit'></i>
-                                    </Button>
-                                    <Button variant='danger' className='btn-sm' onClick={() => deleteJobOpeningHandler(jobOpening._id)}>
-                                        <i className='fas fa-trash'></i>
-                                    </Button>
+                                    <ButtonGroup>
+                                        <Button variant='info' className='btn-sm' onClick={() => applicantsHandler(jobOpening._id)}>
+                                            <i class="fa-solid fa-newspaper"></i>
+                                        </Button>
+                                        <Button variant='dark' className='btn-sm' onClick={() => updateHandler(jobOpening._id)}>
+                                            <i className='fas fa-edit'></i>
+                                        </Button>
+                                        <Button variant='danger' className='btn-sm' onClick={() => deleteJobOpeningHandler(jobOpening._id)}>
+                                            <i className='fas fa-trash'></i>
+                                        </Button>
+                                    </ButtonGroup>
                                 </td>
                             </tr>
                         ))}

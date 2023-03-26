@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react'
-import {Link} from 'react-router-dom'
-import {Table, Button, Row, Col} from 'react-bootstrap'
+import {Button, Row, Col, ButtonGroup} from 'react-bootstrap'
+import BootstrapTable from 'react-bootstrap-table-next'
+import paginationFactory from 'react-bootstrap-table2-paginator'
+import filterFactory, {textFilter} from 'react-bootstrap-table2-filter'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -74,6 +76,80 @@ const RecruiterListScreen = ({history}) => {
         link.click()
     }
 
+    const emailFormatter = (data) => {
+        return <a href={`mailto:${data}`}>{data}</a>
+    }
+
+    const isVerifiedFormatter = (data) => {
+        if(data === true){
+            return <i className='fas fa-check' style={{color: 'green'}}></i>
+        }
+        return <i className='fas fa-times' style={{color: 'red'}}></i>
+    }
+
+    const performFormatter = (data) => {
+        return (
+            <ButtonGroup>
+                <Button variant='dark' className='btn-sm' onClick={() => history.push(`/admin/recruiter/${data}/edit`)}>
+                    <i className='fas fa-edit'></i>
+                </Button>
+                <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(data)}>
+                    <i className='fas fa-trash'></i>
+                </Button>
+            </ButtonGroup>
+        )
+    }
+
+    const columns = [
+        {
+            dataField: '_id',
+            text: '',
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'ID',
+            })
+        },
+        {
+            dataField: 'name',
+            text: '',
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'NAME',
+            }),
+        },
+        {
+            dataField: 'nameOftheCompany',
+            text: '',
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'COMPANY',
+            }),
+        },
+        {
+            dataField: 'email',
+            text: '',
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'EMAIL',
+            }),
+            formatter: emailFormatter,
+        },
+        {
+            dataField: 'verifiedByAdmin',
+            text: 'VERIFIED',
+            formatter: isVerifiedFormatter,
+        },
+        {
+            dataField: '_id',
+            text: 'EDIT/DELETE',
+            formatter: performFormatter,
+        }
+    ]
+
     return (
         <>
             <Row>
@@ -89,40 +165,16 @@ const RecruiterListScreen = ({history}) => {
             {loadingDelete && <Loader/>}
             {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
             {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : (
-                <Table striped bordered hover responsive className='table-sm'>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>COMPANY</th>
-                            <th>EMAIL</th>
-                            <th>VERIFIED</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {recruiters.map(recruiter => (
-                            <tr key={recruiter._id}>
-                                <td>{recruiter._id}</td>
-                                <td>{recruiter.name}</td>
-                                <td>{recruiter.nameOftheCompany}</td>
-                                <td><a href={`mailto:${recruiter.email}`}>{recruiter.email}</a></td>
-                                <td>{recruiter.verifiedByAdmin ? <i className='fas fa-check' style={{color: 'green'}}></i> : (
-                                    <i className='fas fa-times' style={{color: 'red'}}></i>
-                                )}</td> 
-                                <td>
-                                    <Link to={`/admin/recruiter/${recruiter._id}/edit`}>
-                                        <Button variant='dark' className='btn-sm'>
-                                            <i className='fas fa-edit'></i>
-                                        </Button>
-                                    </Link>    
-                                    <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(recruiter._id)}>
-                                        <i className='fas fa-trash'></i>
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                <BootstrapTable
+                    bootstrap4
+                    keyField='_id'
+                    data={recruiters}
+                    columns={columns}
+                    striped
+                    condensed
+                    pagination={paginationFactory()}
+                    filter={filterFactory()}
+                />
             )}
         </>
     )
