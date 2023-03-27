@@ -58,6 +58,7 @@ const getApplications = asyncHandler(async (req, res) => {
 //@access Private
 const getMyApplications = asyncHandler(async (req, res) => {
     const applications = await Application.find({user: req.user._id}).populate('jobOpening', 'nameOftheCompany typeOfJobOpening jobDesignation')
+    
     res.json(applications)
 })
 
@@ -66,7 +67,25 @@ const getMyApplications = asyncHandler(async (req, res) => {
 //@access Recruiter & Private/Admin
 const getJobOpeningApplications = asyncHandler(async (req, res) => {
     const applications = await Application.find({jobOpening: req.params.id}).populate('jobOpening', 'id recruiter').populate('user', 'id name rollNumber email phone')
-    res.json(applications)
+    const applicants = []
+    applications.forEach((application) => {
+        applicants.push({
+            _id: application._id,
+            jobOpeningId: application.jobOpening._id,
+            userId: application.user._id,
+            recruiterId: application.jobOpening.recruiter,
+            userName: application.user.name,
+            userRollNumber: application.user.rollNumber,
+            userEmail: application.user.email,
+            userPhone: application.user.phone,
+            aptitudeTest: application.aptitudeTest,
+            onlineTechnicalTest: application.onlineTechnicalTest,
+            groupDiscussion: application.groupDiscussion,
+            technicalInterviews: application.technicalInterviews,
+            hrInterviews: application.hrInterviews
+        })
+    })
+    res.json(applicants)
 })
 
 //@desc Update Application

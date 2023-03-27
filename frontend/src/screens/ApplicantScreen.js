@@ -1,6 +1,9 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {Table, Button, Row, Col} from 'react-bootstrap'
+import {Button, Row, Col} from 'react-bootstrap'
+import BootstrapTable from 'react-bootstrap-table-next'
+import paginationFactory from 'react-bootstrap-table2-paginator'
+import filterFactory, {textFilter} from 'react-bootstrap-table2-filter'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -45,11 +48,11 @@ const ApplicantScreen = ({history, match}) => {
             ], 
             ...applicants.map(applicant => [
                 applicant._id,
-                applicant.user._id,
-                applicant.user.name,
-                applicant.user.rollNumber,
-                applicant.user.email,
-                applicant.user.phone,
+                applicant.userId,
+                applicant.userName,
+                applicant.userRollNumber,
+                applicant.userEmail,
+                applicant.userPhone,
                 applicant.aptitudeTest === 0 ? 'Cancel' : applicant.aptitudeTest === 1 ? 'Pending Results' : applicant.aptitudeTest === 2 ? 'Pass' : 'Fail',
                 applicant.onlineTechnicalTest === 0 ? 'Cancel' : applicant.onlineTechnicalTest === 1 ? 'Pending Results' : applicant.onlineTechnicalTest === 2 ? 'Pass' : 'Fail',
                 applicant.groupDiscussion === 0 ? 'Cancel' : applicant.groupDiscussion === 1 ? 'Pending Results' : applicant.groupDiscussion === 2 ? 'Pass' : 'Fail',
@@ -69,6 +72,74 @@ const ApplicantScreen = ({history, match}) => {
         link.click()
     }
 
+    const emailFormatter = (data) => {
+        return <a href={`mailto:${data}`}>{data}</a>
+    }
+
+    const detailsFormatter = (data) => {
+        return <Link to={`/application/${data}`}><i class='fa-solid fa-link'></i></Link>
+    }
+
+    const columns = [
+        {
+            dataField: '_id',
+            text: '',
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'APPLICATION ID',
+            })
+        },
+        {
+            dataField: 'userRollNumber',
+            text: '',
+            sort: true,
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'ROLL NUMBER',
+            }),
+        },
+        {
+            dataField: 'userName',
+            text: '',
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'NAME',
+            }),
+        },
+        {
+            dataField: 'userEmail',
+            text: '',
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'EMAIL',
+            }),
+            formatter: emailFormatter,
+        },
+        {
+            dataField: 'userPhone',
+            text: '',
+            filter: textFilter({
+                delay: 1000,
+                className: 'fw-bold',
+                placeholder: 'PHONE',
+            }),
+        },
+        {
+            dataField: '_id',
+            text: 'DETAILS',
+            formatter: detailsFormatter,
+        },
+    ]
+
+    const defaultSorted = [{
+        dataField: 'userRollNumber',
+        order: 'asc'
+    }]
+
     return (
         <>
             <Row>
@@ -82,34 +153,17 @@ const ApplicantScreen = ({history, match}) => {
                 </Col>
             </Row>
             {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : (
-                <Table striped bordered hover responsive className='table-sm'>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>ROLL NUMBER</th>
-                            <th>EMAIL</th>
-                            <th>PHONE</th>
-                            <th>DETAILS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {applicants.map(applicant => (
-                            <tr key={applicant._id}>
-                                <td>{applicant._id}</td>
-                                <td>{applicant.user && applicant.user.name}</td>
-                                <td>{applicant.user && applicant.user.rollNumber}</td>
-                                <td>{applicant.user && applicant.user.email}</td>
-                                <td>{applicant.user && applicant.user.phone}</td>
-                                <td>
-                                    <Link to={`/application/${applicant._id}`}>
-                                        <i class="fa-solid fa-link"></i>
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                <BootstrapTable 
+                    bootstrap4
+                    keyField='_id' 
+                    data={applicants} 
+                    columns={columns} 
+                    striped
+                    condensed
+                    pagination={paginationFactory()}
+                    filter={filterFactory()}
+                    defaultSorted={defaultSorted}
+                />
             )}
         </>
     )

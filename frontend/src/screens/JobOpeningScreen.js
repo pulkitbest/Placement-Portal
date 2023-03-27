@@ -131,7 +131,7 @@ const JobOpeningScreen = ({history, match}) => {
                 <Row>
                 {userInfo && userInfo.isAdmin && jobOpening.recruiter && <Message>Posted by: {jobOpening.recruiter.name} | Recruiter ID: {jobOpening.recruiter._id}</Message>}
                 <Col md={7}>
-                    <Image src={jobOpening.image} alt={jobOpening.nameOftheCompany} fluid/>
+                    <Image src={jobOpening.image} alt={jobOpening.nameOftheCompany} fluid className="rounded mx-auto d-block"/>
                 </Col>
                 <Col md={5}>
                     <ListGroup variant='flush'>
