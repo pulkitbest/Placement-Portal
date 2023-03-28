@@ -5,7 +5,12 @@ export const jobOpeningListReducer = (state = {jobOpenings: []}, action) => {
         case JOB_OPENING_LIST_REQUEST:
             return {loading: true, jobOpenings: []}
         case JOB_OPENING_LIST_SUCCESS:
-            return {loading: false, jobOpenings: action.payload}
+            return {
+                loading: false, 
+                jobOpenings: action.payload.jobOpenings, 
+                pages: action.payload.pages, 
+                page: action.payload.page
+            }
         case JOB_OPENING_LIST_FAIL:
             return {loading: false, error: action.payload}
         default:

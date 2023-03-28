@@ -19,3 +19,19 @@ h2{
     font-size: 1.4rem;
     padding: 0.5rem 0;
 }
+
+.link {
+    color: #000000;
+}
+
+.link:hover {
+    color: rgb(0, 0, 0)
+}
+
+.link-active {
+    color: #ffffff;
+}
+
+.link-active:hover {
+    color: rgb(255, 255, 255)
+}

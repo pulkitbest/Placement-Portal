@@ -96,7 +96,9 @@ const App = () => {
 
           {/* DashBoards */}
           <Route path='/recruiter' component={RecruiterDashboardScreen} exact/>
-          <Route path='/student/search/:keyword' component={UserDashboardScreen}/>
+          <Route path='/student/search/:keyword' component={UserDashboardScreen} exact/>
+          <Route path='/student/page/:pageNumber' component={UserDashboardScreen} exact/>
+          <Route path='/student/search/:keyword/page/:pageNumber' component={UserDashboardScreen} exact/>
           <Route path='/student' component={UserDashboardScreen} exact/>
           <Route path='/' component={LoginScreen} exact/>
         </Container> 

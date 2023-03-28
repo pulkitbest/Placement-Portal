@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { JOB_OPENING_CREATE_COMMENT_FAIL, JOB_OPENING_CREATE_COMMENT_REQUEST, JOB_OPENING_CREATE_COMMENT_SUCCESS, JOB_OPENING_CREATE_FAIL, JOB_OPENING_CREATE_REQUEST, JOB_OPENING_CREATE_SUCCESS, JOB_OPENING_DELETE_FAIL, JOB_OPENING_DELETE_REQUEST, JOB_OPENING_DELETE_SUCCESS, JOB_OPENING_DETAILS_FAIL, JOB_OPENING_DETAILS_REQUEST, JOB_OPENING_DETAILS_SUCCESS, JOB_OPENING_LIST_FAIL, JOB_OPENING_LIST_MY_FAIL, JOB_OPENING_LIST_MY_REQUEST, JOB_OPENING_LIST_MY_SUCCESS, JOB_OPENING_LIST_REQUEST, JOB_OPENING_LIST_SUCCESS, JOB_OPENING_UPDATE_FAIL, JOB_OPENING_UPDATE_REQUEST, JOB_OPENING_UPDATE_SUCCESS, JOB_OPENING_VERIFY_FAIL, JOB_OPENING_VERIFY_REQUEST, JOB_OPENING_VERIFY_SUCCESS } from '../constants/jobOpeningConstants'
 
-export const listJobOpenings = (keyword = '') => async(dispatch, getState) => {
+export const listJobOpenings = (keyword = '', pageNumber = '') => async(dispatch, getState) => {
     try{
         dispatch({type: JOB_OPENING_LIST_REQUEST})   
 
@@ -13,7 +13,7 @@ export const listJobOpenings = (keyword = '') => async(dispatch, getState) => {
             }
         }
 
-        const {data} = await axios.get(`/api/jobOpenings?keyword=${keyword}`, config)
+        const {data} = await axios.get(`/api/jobOpenings?keyword=${keyword}&pageNumber=${pageNumber}`, config)
 
         dispatch({
             type: JOB_OPENING_LIST_SUCCESS,

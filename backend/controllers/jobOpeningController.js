@@ -5,11 +5,16 @@ import JobOpening from '../models/jobOpeningModel.js'
 //@route GET /api/jobOpenings
 //@access Student
 const getJobOpenings = asyncHandler(async (req, res) => {
+    const pageSize = 12
+    const page = Number(req.query.pageNumber) || 1
+
     const keyword = req.query.keyword ? {
         nameOftheCompany: new RegExp(req.query.keyword, 'i')
     } : {}
-    const jobOpenings = await JobOpening.find({...keyword})
-    res.json(jobOpenings)
+
+    const count = await JobOpening.countDocuments({ ...keyword})
+    const jobOpenings = await JobOpening.find({...keyword}).limit(pageSize).skip(pageSize * (page - 1))
+    res.json({jobOpenings, page, pages: Math.ceil(count / pageSize)})
 })
 
 //@desc Fetch single jobOpening

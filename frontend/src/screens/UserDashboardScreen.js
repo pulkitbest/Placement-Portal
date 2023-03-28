@@ -7,14 +7,16 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listJobOpenings } from '../actions/jobOpeningActions';
 import FeedSearchBox from '../components/FeedSearchBox';
+import Paginate from '../components/Paginate';
 
 const UserDashboardScreen = ({history, match}) => {
     const keyword = match.params.keyword
+    const pageNumber = match.params.pageNumber || 1
 
     const dispatch = useDispatch()
 
     const jobOpeningList = useSelector((state) => state.jobOpeningList)//works as usestate
-    const { loading, error, jobOpenings } = jobOpeningList
+    const { loading, error, jobOpenings, page, pages } = jobOpeningList
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
@@ -28,9 +30,9 @@ const UserDashboardScreen = ({history, match}) => {
         if (!userInfo) {
             history.push("/login")
         } else {
-            dispatch(listJobOpenings(keyword)) //this fills our state
+            dispatch(listJobOpenings(keyword, pageNumber)) //this fills our state
         }
-    }, [dispatch, keyword, userInfo, history])
+    }, [dispatch, keyword, pageNumber, userInfo, history])
 
     if(userInfo && !userInfo.isAdmin){
         if(userInfo.lookingFor === 'Summer Internship')
@@ -48,6 +50,7 @@ const UserDashboardScreen = ({history, match}) => {
             ) : error ? (
                 <Message>{error}</Message>
             ) : (
+                <>
                 <Row>
                 {
                     sortedJobOpenings.filter((jobOpening) => (jobOpening.verifiedByAdmin === true || (userInfo && userInfo.isAdmin === true))).map((jobOpening) => (
@@ -57,6 +60,8 @@ const UserDashboardScreen = ({history, match}) => {
                     ))
                 }
                 </Row>
+                <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}/>
+                </>
             )}
         </>
     )
