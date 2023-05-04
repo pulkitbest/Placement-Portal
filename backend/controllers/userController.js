@@ -235,7 +235,11 @@ const registerUser = asyncHandler(async (req, res) => {
         try{
             await sendMail({
                 to: email,
-                OTP: generatedOTP,
+                OTP: generatedOTPForEmail,
+            })
+            await sendMail({
+                to: collegeEmail,
+                OTP: generatedOTPForCollegeEmail,
             })
             res.status(201).json({
                 _id: user._id,
