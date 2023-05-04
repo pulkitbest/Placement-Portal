@@ -233,10 +233,10 @@ const registerUser = asyncHandler(async (req, res) => {
         }
     
         try{
-            // await sendMail({
-            //     to: email,
-            //     OTP: generatedOTP,
-            // })
+            await sendMail({
+                to: email,
+                OTP: generatedOTP,
+            })
             res.status(201).json({
                 _id: user._id,
                 name: user.name,
@@ -273,8 +273,7 @@ const verifyUserAll = asyncHandler(async(req, res) => {
         throw new Error('User Not Found')
     }
     if((!otpForEmail || (otpForEmail && otpForEmail === user.otpForEmail)) &&
-        (!otpForCollegeEmail || (otpForCollegeEmail && otpForCollegeEmail === user.otpForCollegeEmail)) && 
-        (!otpForPhone || (otpForPhone && otpForPhone === user.otpForPhone))) {
+        (!otpForCollegeEmail || (otpForCollegeEmail && otpForCollegeEmail === user.otpForCollegeEmail))) {
             try {
                 user.verified = true
                 await user.save()
