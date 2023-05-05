@@ -256,12 +256,13 @@ export const createJobOpeningComment = (jobOpeningId, comment) => async (dispatc
         })
 
         const {userLogin: {userInfo}} = getState()
+        const {recruiterLogin: {recruiterInfo}} = getState()
 
         //have to use this whenever there is a use of headers in this case header authorization
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`,
+                Authorization: `Bearer ${userInfo ? userInfo.token : recruiterInfo.token}`,
             }
         }
         await axios.post(`/api/jobOpenings/${jobOpeningId}/comments`, comment, config)

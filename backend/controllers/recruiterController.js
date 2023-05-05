@@ -145,8 +145,7 @@ const verifyRecruiterAll = asyncHandler(async(req, res) => {
         res.status(404) 
         throw new Error('User Not Found')
     }
-    if((!otpForEmail || (otpForEmail && otpForEmail === recruiter.otpForEmail)) &&
-        (!otpForMobileNumber || (otpForMobileNumber && otpForMobileNumber === recruiter.otpForMobileNumber))) {
+    if(!otpForEmail || (otpForEmail && otpForEmail === recruiter.otpForEmail)) {
             try {
                 recruiter.verified = true
                 await recruiter.save()
