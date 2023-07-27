@@ -1,5 +1,4 @@
 # Placement-Portal
-Campus Training and Placement Portal
 Admin Data Flow Diagram
 ![Admin DFD](https://github.com/pulkitbest/Placement-Portal/assets/76588219/30759e8e-1dd8-4f26-b301-71ff88ecb4fc)
 
