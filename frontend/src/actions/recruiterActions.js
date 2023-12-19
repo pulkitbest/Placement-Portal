@@ -69,9 +69,6 @@ export const recruiterLogout = () => async (dispatch) => {
     dispatch({
         type: JOB_OPENING_LIST_MY_RESET
     })
-    // dispatch({
-    //     type: USER_LIST_RESET
-    // })
 }
 
 export const register = (

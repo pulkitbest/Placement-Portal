@@ -3,10 +3,8 @@ import express from 'express'
 import dotenv from 'dotenv'
 import colors from 'colors'
 import morgan from 'morgan'
-import connectDB from './config/db.js'
-import productRoutes from './routes/productRoutes.js'
+import connectDB from './config/db.js' 
 import userRoutes from './routes/userRoutes.js'
-import orderRoutes from './routes/orderRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import recruiterRoutes from './routes/recruiterRoutes.js'
 import jobOpeningRoutes from './routes/jobOpeningRoutes.js'
@@ -25,9 +23,7 @@ if(process.env.NODE_ENV === 'development') {
 
 app.use(express.json()) // lets use JSON data in body, see userController req.body
 
-app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
-app.use('/api/orders', orderRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/recruiters', recruiterRoutes)
 app.use('/api/jobOpenings', jobOpeningRoutes)

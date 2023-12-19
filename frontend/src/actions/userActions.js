@@ -31,7 +31,6 @@ import {
     USER_GENERATE_OTP_SUCCESS, 
     USER_GENERATE_OTP_FAIL,
     USER_GENERATE_OTP_RESET} from "../constants/userConstants"
-import {ORDER_LIST_MY_RESET} from '../constants/orderConstants'
 
 // export const login = (email, password) => async (dispatch) => {
 //     try{
@@ -126,9 +125,6 @@ export const logout = () => async (dispatch) => {
     })
     dispatch({
         type: USER_DETAILS_RESET
-    })
-    dispatch({
-        type: ORDER_LIST_MY_RESET
     })
     dispatch({
         type: USER_LIST_RESET

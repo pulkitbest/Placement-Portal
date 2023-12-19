@@ -2,14 +2,6 @@ import {createStore, combineReducers, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import {
-    productListReducer, 
-    productDetailsReducer, 
-    productDeleteReducer,
-    productCreateReducer,
-    productUpdateReducer,
-    productReviewCreateReducer
-} from './reducers/productReducers' 
-import {
     userLoginReducer, 
     userRegisterReducer, 
     userVerificationReducer,
@@ -20,14 +12,6 @@ import {
     userUpdateReducer,
     userGenerateOTPReducer
 } from './reducers/userReducers'
-import {
-    orderCreateReducer, 
-    orderDetailsReducer, 
-    orderPayReducer, 
-    orderDeliverReducer,
-    orderListMyReducer,
-    orderListReducer
-} from './reducers/orderReducers'
 import {
     jobOpeningListReducer,
     jobOpeningDetailsReducer,
@@ -67,13 +51,6 @@ const reducer = combineReducers({
     jobOpeningUpdate: jobOpeningUpdateReducer,
     jobOpeningVerify: jobOpeningVerifyReducer,
 
-    productList: productListReducer,
-    productDetails: productDetailsReducer,
-    productDelete: productDeleteReducer,
-    productCreate: productCreateReducer,
-    productUpdate: productUpdateReducer,
-    productReviewCreate: productReviewCreateReducer,
-
     userLogin: userLoginReducer,
     userGenerateOTP: userGenerateOTPReducer,
     userRegister: userRegisterReducer,
@@ -99,13 +76,6 @@ const reducer = combineReducers({
     applicationCreate: applicationCreateReducer,
     applicantList: applicantListReducer,
     applicationUpdate: applicationUpdateReducer,
-
-    orderCreate: orderCreateReducer,
-    orderDetails: orderDetailsReducer,
-    orderPay: orderPayReducer,
-    orderDeliver: orderDeliverReducer,
-    orderListMy: orderListMyReducer,
-    orderList: orderListReducer
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')):null
